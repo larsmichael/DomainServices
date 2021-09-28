@@ -47,79 +47,9 @@
             return sb.ToString();
         }
 
-        /// <summary>
-        ///     Converts the object array to a DataTable object.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <returns>DataTable.</returns>
-        public static DataTable ToDataTable(this object[,] data)
-        {
-            var rowCount = data.GetLength(0);
-            var columnCount = data.GetLength(1);
-            var dataTable = new DataTable();
-            for (var i = 0; i < columnCount; i++)
-            {
-                dataTable.Columns.Add();
-            }
-
-            foreach (var row in Enumerable.Range(1, rowCount))
-            {
-                dataTable.Rows.Add(Enumerable.Range(1, columnCount).Select(col => data[row - 1, col - 1]).ToArray());
-            }
-
-            return dataTable;
-        }
-
-        /// <summary>
-        ///     Converts an object to a dynamic object.
-        /// </summary>
-        /// <param name="value">The object to convert.</param>
-        /// <returns>dynamic.</returns>
-        public static dynamic ToDynamic(this object value)
-        {
-            IDictionary<string, object> expando = new ExpandoObject();
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(value.GetType()))
-            {
-                expando.Add(property.Name, property.GetValue(value));
-            }
-
-            return (ExpandoObject)expando;
-        }
-
         public static bool IsCollection(this Type type)
         {
             return typeof(ICollection).IsAssignableFrom(type);
         }
-
-        public static JObject Filter(this JObject obj, params string[] selects)
-        {
-            var result = (JContainer)new JObject();
-
-            foreach (var select in selects)
-            {
-                var token = obj.SelectToken(select);
-                if (token == null)
-                    continue;
-
-                result.Merge(GetNewParent(token.Parent));
-            }
-
-            return (JObject)result;
-        }
-
-        private static JToken GetNewParent(JToken token)
-        {
-            var result = new JObject(token);
-
-            var parent = token;
-            while ((parent = parent.Parent) != null)
-            {
-                if (parent is JProperty property)
-                    result = new JObject(new JProperty(property.Name, result));
-            }
-
-            return result;
-        }
-        
     }
 }
