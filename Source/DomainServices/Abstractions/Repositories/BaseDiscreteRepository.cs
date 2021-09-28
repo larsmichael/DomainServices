@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>System.Int32.</returns>
-        public virtual int Count(ClaimsPrincipal user = null)
+        public virtual int Count(ClaimsPrincipal? user = null)
         {
             return GetAll(user).Count();
         }
@@ -28,7 +28,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
-        public virtual bool Contains(TEntityId id, ClaimsPrincipal user = null)
+        public virtual bool Contains(TEntityId id, ClaimsPrincipal? user = null)
         {
             return Get(id, user).HasValue;
         }
@@ -38,14 +38,14 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public abstract IEnumerable<TEntity> GetAll(ClaimsPrincipal user = null);
+        public abstract IEnumerable<TEntity> GetAll(ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Gets all entity identifiers.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntityId&gt;.</returns>
-        public virtual IEnumerable<TEntityId> GetIds(ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntityId> GetIds(ClaimsPrincipal? user = null)
         {
             return GetAll(user).Select(e => e.Id).ToArray();
         }
@@ -56,7 +56,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns>Maybe&lt;TEntity&gt;.</returns>
-        public virtual Maybe<TEntity> Get(TEntityId id, ClaimsPrincipal user = null)
+        public virtual Maybe<TEntity> Get(TEntityId id, ClaimsPrincipal? user = null)
         {
             var entity = GetAll(user).FirstOrDefault(e => e.Id.Equals(id));
             return entity == null || entity.Equals(default(TEntity)) ? Maybe.Empty<TEntity>() : entity.ToMaybe();

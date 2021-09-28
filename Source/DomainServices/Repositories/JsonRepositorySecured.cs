@@ -40,7 +40,7 @@
         /// <param name="converters">Optional converters.</param>
         /// <param name="comparer">Equality comparer</param>
         /// <exception cref="ArgumentNullException">filePath</exception>
-        public JsonRepositorySecured(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter> converters = null, IEqualityComparer<TEntityId> comparer = null)
+        public JsonRepositorySecured(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null, IEqualityComparer<TEntityId>? comparer = null)
         {
             _filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
             _comparer = comparer;
@@ -68,7 +68,7 @@
         /// <param name="filePath">The file path.</param>
         /// <param name="typeNameHandling">The type name handling.</param>
         /// <param name="converters">The converters.</param>
-        public JsonRepositorySecured(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter> converters = null)
+        public JsonRepositorySecured(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null)
             : this(filePath, typeNameHandling, converters, null)
         {
         }
@@ -187,7 +187,7 @@
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        public void Add(TEntity entity, ClaimsPrincipal user = null)
+        public void Add(TEntity entity, ClaimsPrincipal? user = null)
         {
             if (!entity.Permissions.Any())
             {

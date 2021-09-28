@@ -14,7 +14,7 @@
         /// <param name="group">The group.</param>
         /// <param name="name">The name.</param>
         /// <exception cref="ArgumentException">Cannot be null or empty.;name</exception>
-        public FullName(string group, string name) : this()
+        public FullName(string? group, string name) : this()
         {
             Guard.Against.NullOrEmpty(name, nameof(name));
             Group = group;
@@ -25,7 +25,7 @@
         ///     Gets the group-part of the FullName.
         /// </summary>
         /// <value>The group.</value>
-        public string Group { get; }
+        public string? Group { get; }
 
         /// <summary>
         ///     Gets the name-part of the FullName.
@@ -51,7 +51,7 @@
         public static FullName Parse(string s)
         {
             Guard.Against.NullOrEmpty(s, nameof(s));
-            string group = null;
+            string? group = null;
             var name = s;
             var i = s.LastIndexOf('/');
             if (i > 0)

@@ -53,7 +53,7 @@
         /// <summary>
         ///     Occurs when a new log entry is added.
         /// </summary>
-        public event EventHandler<EventArgs<LogEntry>> EntryAdded;
+        public event EventHandler<EventArgs<LogEntry>>? EntryAdded;
 
         private void OnAdded(LogEntry logEntry)
         {

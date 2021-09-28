@@ -22,7 +22,7 @@
             }
         }
 
-        public event EventHandler<EventArgs<LogEntry>> EntryAdded;
+        public event EventHandler<EventArgs<LogEntry>>? EntryAdded;
 
         public IEnumerable<LogEntry> Get(IEnumerable<QueryCondition> query)
         {

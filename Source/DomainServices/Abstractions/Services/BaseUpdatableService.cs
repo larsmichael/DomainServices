@@ -41,7 +41,7 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <exception cref="ArgumentException"></exception>
-        public virtual void Add(TEntity entity, ClaimsPrincipal user = null)
+        public virtual void Add(TEntity entity, ClaimsPrincipal? user = null)
         {
             if (!((IDiscreteRepository<TEntity, TEntityId>)_repository).Contains(entity.Id, user))
             {
@@ -69,7 +69,7 @@
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        public virtual void AddOrUpdate(TEntity entity, ClaimsPrincipal user = null)
+        public virtual void AddOrUpdate(TEntity entity, ClaimsPrincipal? user = null)
         {
             if (!((IDiscreteRepository<TEntity, TEntityId>)_repository).Contains(entity.Id, user))
             {
@@ -108,7 +108,7 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity was successfully added, <c>false</c> otherwise.</returns>
-        public virtual bool TryAdd(TEntity entity, ClaimsPrincipal user = null)
+        public virtual bool TryAdd(TEntity entity, ClaimsPrincipal? user = null)
         {
             try
             {
@@ -140,7 +140,7 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity was successfully updated, <c>false</c> otherwise.</returns>
-        public virtual bool TryUpdate(TEntity entity, ClaimsPrincipal user = null)
+        public virtual bool TryUpdate(TEntity entity, ClaimsPrincipal? user = null)
         {
             try
             {
@@ -171,7 +171,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <exception cref="KeyNotFoundException"></exception>
-        public virtual void Remove(TEntityId id, ClaimsPrincipal user = null)
+        public virtual void Remove(TEntityId id, ClaimsPrincipal? user = null)
         {
             if (((IDiscreteRepository<TEntity, TEntityId>)_repository).Contains(id, user))
             {
@@ -195,7 +195,7 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <exception cref="KeyNotFoundException"></exception>
-        public virtual void Update(TEntity entity, ClaimsPrincipal user = null)
+        public virtual void Update(TEntity entity, ClaimsPrincipal? user = null)
         {
             if (((IDiscreteRepository<TEntity, TEntityId>)_repository).Contains(entity.Id, user))
             {
@@ -220,32 +220,32 @@
         /// <summary>
         ///     Occurs when an entity was added.
         /// </summary>
-        public event EventHandler<EventArgs<TEntity>> Added;
+        public event EventHandler<EventArgs<TEntity>>? Added;
 
         /// <summary>
         ///     Occurs when adding an entity.
         /// </summary>
-        public event EventHandler<CancelEventArgs<TEntity>> Adding;
+        public event EventHandler<CancelEventArgs<TEntity>>? Adding;
 
         /// <summary>
         ///     Occurs when an entity was deleted.
         /// </summary>
-        public event EventHandler<EventArgs<TEntityId>> Deleted;
+        public event EventHandler<EventArgs<TEntityId>>? Deleted;
 
         /// <summary>
         ///     Occurs when deleting an entity.
         /// </summary>
-        public event EventHandler<CancelEventArgs<TEntityId>> Deleting;
+        public event EventHandler<CancelEventArgs<TEntityId>>? Deleting;
 
         /// <summary>
         ///     Occurs when an entity was updated.
         /// </summary>
-        public event EventHandler<EventArgs<TEntity>> Updated;
+        public event EventHandler<EventArgs<TEntity>>? Updated;
 
         /// <summary>
         ///     Occurs when updating an entity.
         /// </summary>
-        public event EventHandler<CancelEventArgs<TEntity>> Updating;
+        public event EventHandler<CancelEventArgs<TEntity>>? Updating;
 
         /// <summary>
         ///     Called when an entity was added.

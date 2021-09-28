@@ -48,7 +48,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>System.Int32.</returns>
-        public int Count(ClaimsPrincipal user = null)
+        public int Count(ClaimsPrincipal? user = null)
         {
             return GetAll().Count();
         }
@@ -59,7 +59,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
-        public bool Contains(TEntityId id, ClaimsPrincipal user = null)
+        public bool Contains(TEntityId id, ClaimsPrincipal? user = null)
         {
             return _entities.ContainsKey(id);
         }
@@ -69,7 +69,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public IEnumerable<TEntity> GetAll(ClaimsPrincipal user = null)
+        public IEnumerable<TEntity> GetAll(ClaimsPrincipal? user = null)
         {
             foreach (var entity in _entities.Values)
             {
@@ -82,7 +82,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntityId&gt;.</returns>
-        public IEnumerable<TEntityId> GetIds(ClaimsPrincipal user = null)
+        public IEnumerable<TEntityId> GetIds(ClaimsPrincipal? user = null)
         {
             return _entities.Values.Select(e => e.Id).ToArray();
         }
@@ -93,7 +93,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns>Maybe&lt;TEntity&gt;.</returns>
-        public Maybe<TEntity> Get(TEntityId id, ClaimsPrincipal user = null)
+        public Maybe<TEntity> Get(TEntityId id, ClaimsPrincipal? user = null)
         {
             _entities.TryGetValue(id, out var entity);
             return entity == null || entity.Equals(default(TEntity)) ? Maybe.Empty<TEntity>() : ((TEntity)entity.Clone()).ToMaybe();
@@ -104,7 +104,7 @@
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        public void Add(TEntity entity, ClaimsPrincipal user = null)
+        public void Add(TEntity entity, ClaimsPrincipal? user = null)
         {
             _entities.Add(entity.Id, entity);
         }
@@ -114,7 +114,7 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
-        public void Remove(TEntityId id, ClaimsPrincipal user = null)
+        public void Remove(TEntityId id, ClaimsPrincipal? user = null)
         {
             _entities.Remove(id);
         }
@@ -124,7 +124,7 @@
         /// </summary>
         /// <param name="updatedEntity">The updated entity.</param>
         /// <param name="user">The user.</param>
-        public void Update(TEntity updatedEntity, ClaimsPrincipal user = null)
+        public void Update(TEntity updatedEntity, ClaimsPrincipal? user = null)
         {
             if (!_entities.ContainsKey(updatedEntity.Id))
             {

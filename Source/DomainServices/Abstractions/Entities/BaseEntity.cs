@@ -23,21 +23,14 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="BaseEntity{TId}" /> class.
         /// </summary>
-        protected BaseEntity()
-        {
-            _metadata = new Dictionary<object, object>();
-            _permissions = new List<Permission>();
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="BaseEntity{TId}" /> class.
-        /// </summary>
         /// <param name="id">The identifier.</param>
         /// <exception cref="ArgumentNullException">id</exception>
-        protected BaseEntity(TId id) : this()
+        protected BaseEntity(TId id) 
         {
             Guard.Against.Null(id, nameof(id));
             _id = id;
+            _metadata = new Dictionary<object, object>();
+            _permissions = new List<Permission>();
         }
 
         /// <summary>

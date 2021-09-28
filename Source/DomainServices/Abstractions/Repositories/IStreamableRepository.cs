@@ -9,6 +9,6 @@
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
     public interface IStreamableRepository<in TEntityId>
     {
-        (Maybe<Stream>, string fileType, string fileName) GetStream(TEntityId id, ClaimsPrincipal user = null);
+        (Maybe<Stream>, string fileType, string fileName) GetStream(TEntityId id, ClaimsPrincipal? user = null);
     }
 }

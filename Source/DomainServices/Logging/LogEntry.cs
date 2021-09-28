@@ -26,7 +26,7 @@
         /// <param name="dateTime">The date time.</param>
         /// <param name="metadata">Metadata.</param>
         [JsonConstructor]
-        public LogEntry(Guid id, LogLevel logLevel, string text, string source, string tag = null, string machineName = null, DateTime dateTime = default, IDictionary<object, object> metadata = null)
+        public LogEntry(Guid id, LogLevel logLevel, string text, string source, string? tag = null, string? machineName = null, DateTime dateTime = default, IDictionary<object, object>? metadata = null)
             : this()
         {
             Guard.Against.NullOrEmpty(text, nameof(text));
@@ -50,7 +50,7 @@
         /// <param name="tag">A tag.</param>
         /// <param name="machineName">The machine name.</param>
         /// <param name="dateTime">The date time.</param>
-        public LogEntry(LogLevel logLevel, string text, string source, string tag = null, string machineName = null, DateTime dateTime = default)
+        public LogEntry(LogLevel logLevel, string text, string source, string? tag = null, string? machineName = null, DateTime dateTime = default)
             : this(Guid.NewGuid(), logLevel, text, source, tag, machineName, dateTime)
         {
         }
@@ -83,13 +83,13 @@
         ///     Gets the tag.
         /// </summary>
         /// <value>The tag.</value>
-        public string Tag { get; }
+        public string? Tag { get; }
 
         /// <summary>
         ///     Gets the machine name.
         /// </summary>
         /// <value>The machine name.</value>
-        public string MachineName { get; }
+        public string? MachineName { get; }
 
         /// <summary>
         ///     Gets the text.

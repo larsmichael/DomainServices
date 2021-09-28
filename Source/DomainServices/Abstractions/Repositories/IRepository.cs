@@ -15,6 +15,6 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns>Maybe&lt;TEntity&gt;.</returns>
-        Maybe<TEntity> Get(TEntityId id, ClaimsPrincipal user = null);
+        Maybe<TEntity> Get(TEntityId id, ClaimsPrincipal? user = null);
     }
 }

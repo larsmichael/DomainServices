@@ -43,7 +43,7 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <exception cref="ArgumentException"></exception>
-        public virtual void Add(TEntity entity, ClaimsPrincipal user = null)
+        public virtual void Add(TEntity entity, ClaimsPrincipal? user = null)
         {
             var cancelEventArgs = new CancelEventArgs<TEntity>(entity);
             OnAdding(cancelEventArgs);
@@ -62,7 +62,7 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity was successfully added, <c>false</c> otherwise.</returns>
-        public virtual bool TryAdd(TEntity entity, ClaimsPrincipal user = null)
+        public virtual bool TryAdd(TEntity entity, ClaimsPrincipal? user = null)
         {
             try
             {
@@ -89,7 +89,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <exception cref="KeyNotFoundException"></exception>
-        public virtual void Remove(TEntityId id, ClaimsPrincipal user = null)
+        public virtual void Remove(TEntityId id, ClaimsPrincipal? user = null)
         {
             if (((IDiscreteRepository<TEntity, TEntityId>)_repository).Contains(id, user))
             {
@@ -110,22 +110,22 @@
         /// <summary>
         ///     Occurs when an entity was added.
         /// </summary>
-        public event EventHandler<EventArgs<TEntity>> Added;
+        public event EventHandler<EventArgs<TEntity>>? Added;
 
         /// <summary>
         ///     Occurs when adding an entity.
         /// </summary>
-        public event EventHandler<CancelEventArgs<TEntity>> Adding;
+        public event EventHandler<CancelEventArgs<TEntity>>? Adding;
 
         /// <summary>
         ///     Occurs when an entity was deleted.
         /// </summary>
-        public event EventHandler<EventArgs<TEntityId>> Deleted;
+        public event EventHandler<EventArgs<TEntityId>>? Deleted;
 
         /// <summary>
         ///     Occurs when deleting an entity.
         /// </summary>
-        public event EventHandler<CancelEventArgs<TEntityId>> Deleting;
+        public event EventHandler<CancelEventArgs<TEntityId>>? Deleting;
 
         /// <summary>
         ///     Called when an entity was added.
@@ -170,7 +170,11 @@
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     public abstract class BaseImmutableDiscreteService<TEntity> : BaseImmutableDiscreteService<TEntity, Guid> where TEntity : IEntity<Guid>
     {
-        protected BaseImmutableDiscreteService(IImmutableRepository<TEntity, Guid> repository, ILogger logger = null) : base(repository, logger)
+        protected BaseImmutableDiscreteService(IImmutableRepository<TEntity, Guid> repository) : base(repository)
+        {
+        }
+
+        protected BaseImmutableDiscreteService(IImmutableRepository<TEntity, Guid> repository, ILogger logger) : base(repository, logger)
         {
         }
     }

@@ -23,7 +23,7 @@
         IUpdatableRepository<TEntity, string> where TEntity : IGroupedEntity<string>
     {
         private static readonly object _syncObject = new();
-        private readonly IEqualityComparer<string> _comparer;
+        private readonly IEqualityComparer<string>? _comparer;
         private readonly FileInfo _fileInfo;
         private readonly string _filePath;
         private readonly JsonSerializerSettings _jsonSerializerSettings;
@@ -38,7 +38,7 @@
         /// <param name="converters">Optional converters.</param>
         /// <param name="comparer">Optional equality comparer</param>
         /// <exception cref="ArgumentNullException">filePath</exception>
-        public GroupedJsonRepository(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter> converters = null, IEqualityComparer<string> comparer = null)
+        public GroupedJsonRepository(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null, IEqualityComparer<string>? comparer = null)
         {
             _filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
             _comparer = comparer;
@@ -66,7 +66,7 @@
         /// <param name="filePath">The file path.</param>
         /// <param name="typeNameHandling">The type name handling.</param>
         /// <param name="converters">The converters.</param>
-        public GroupedJsonRepository(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter> converters = null)
+        public GroupedJsonRepository(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null)
             : this(filePath, typeNameHandling, converters, null)
         {
         }
@@ -100,7 +100,7 @@
                     return _entities;
                 }
 
-                _Deserialize();
+                Deserialize();
                 _lastModified = _fileInfo.LastWriteTime;
                 return _entities;
             }
@@ -110,7 +110,7 @@
         ///     The total number of entities.
         /// </summary>
         /// <param name="user">The user.</param>
-        public int Count(ClaimsPrincipal user = null)
+        public int Count(ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -130,11 +130,11 @@
         /// <param name="id">The fullname identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity with the specified fullname identifier exists, <c>false</c> otherwise.</returns>
-        public bool Contains(string id, ClaimsPrincipal user = null)
+        public bool Contains(string id, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
-                var fullname = _GetFullName(id);
+                var fullname = GetFullName(id);
                 return Entities.ContainsKey(fullname.Group) && Entities[fullname.Group].ContainsKey(fullname.Name);
             }
         }
@@ -144,11 +144,11 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public virtual IEnumerable<TEntity> GetAll(ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntity> GetAll(ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
-                _Deserialize();
+                Deserialize();
                 var entities = new List<TEntity>();
                 foreach (var group in _entities)
                 {
@@ -167,7 +167,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;string&gt;.</returns>
-        public IEnumerable<string> GetIds(ClaimsPrincipal user = null)
+        public IEnumerable<string> GetIds(ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -190,7 +190,7 @@
         /// <param name="group">The group.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if the repository contains the specified group; otherwise, <c>false</c>.</returns>
-        public bool ContainsGroup(string group, ClaimsPrincipal user = null)
+        public bool ContainsGroup(string group, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -204,11 +204,11 @@
         /// <param name="group">The group.</param>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public IEnumerable<TEntity> GetByGroup(string group, ClaimsPrincipal user = null)
+        public IEnumerable<TEntity> GetByGroup(string group, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
-                _Deserialize();
+                Deserialize();
                 return _entities[group].Values.ToArray();
             }
         }
@@ -219,7 +219,7 @@
         /// <param name="group">The group.</param>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
-        public IEnumerable<string> GetFullNames(string group, ClaimsPrincipal user = null)
+        public IEnumerable<string> GetFullNames(string group, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -232,7 +232,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
-        public IEnumerable<string> GetFullNames(ClaimsPrincipal user = null)
+        public IEnumerable<string> GetFullNames(ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -255,12 +255,12 @@
         /// <param name="id">The fullname identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns>Maybe&lt;TEntity&gt;.</returns>
-        public Maybe<TEntity> Get(string id, ClaimsPrincipal user = null)
+        public Maybe<TEntity> Get(string id, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
-                var fullName = _GetFullName(id);
-                _Deserialize();
+                var fullName = GetFullName(id);
+                Deserialize();
                 if (!_entities.Any())
                 {
                     return Maybe.Empty<TEntity>();
@@ -282,7 +282,7 @@
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        public void Add(TEntity entity, ClaimsPrincipal user = null)
+        public void Add(TEntity entity, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -297,7 +297,7 @@
                 }
 
                 Entities[entity.Group].Add(entity.Name, entity);
-                _Serialize();
+                Serialize();
             }
         }
 
@@ -306,11 +306,11 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
-        public void Remove(string id, ClaimsPrincipal user = null)
+        public void Remove(string id, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
-                var fullName = _GetFullName(id);
+                var fullName = GetFullName(id);
                 Entities.TryGetValue(fullName.Group, out var group);
                 if (group is null)
                 {
@@ -327,7 +327,7 @@
                     Entities.Remove(fullName.Group);
                 }
 
-                _Serialize();
+                Serialize();
             }
         }
 
@@ -336,7 +336,7 @@
         /// </summary>
         /// <param name="updatedEntity">The updated entity.</param>
         /// <param name="user">The user.</param>
-        public void Update(TEntity updatedEntity, ClaimsPrincipal user = null)
+        public void Update(TEntity updatedEntity, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -347,7 +347,7 @@
                 }
 
                 group[updatedEntity.Name] = updatedEntity;
-                _Serialize();
+                Serialize();
             }
         }
 
@@ -357,11 +357,11 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
-                _Deserialize();
+                Deserialize();
                 var entities = new List<TEntity>();
                 if (!_entities.Any())
                 {
@@ -385,7 +385,7 @@
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <param name="user">The user.</param>
-        public void Remove(Expression<Func<TEntity, bool>> predicate, ClaimsPrincipal user = null)
+        public void Remove(Expression<Func<TEntity, bool>> predicate, ClaimsPrincipal? user = null)
         {
             lock (_syncObject)
             {
@@ -397,7 +397,7 @@
             }
         }
 
-        private FullName _GetFullName(string id)
+        private static FullName GetFullName(string id)
         {
             var fullname = FullName.Parse(id);
             if (fullname.Group is null)
@@ -408,14 +408,14 @@
             return fullname;
         }
 
-        private void _Serialize()
+        private void Serialize()
         {
             using var streamWriter = new StreamWriter(_filePath);
             var json = JsonConvert.SerializeObject(_entities, _jsonSerializerSettings);
             streamWriter.Write(json);
         }
 
-        private void _Deserialize()
+        private void Deserialize()
         {
             if (!File.Exists(_filePath))
             {

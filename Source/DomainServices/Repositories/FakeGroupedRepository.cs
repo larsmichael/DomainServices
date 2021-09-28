@@ -35,7 +35,7 @@
         /// <param name="group">The group.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if the specified group contains group; otherwise, <c>false</c>.</returns>
-        public bool ContainsGroup(string group, ClaimsPrincipal user = null)
+        public bool ContainsGroup(string group, ClaimsPrincipal? user = null)
         {
             return _entities.Any(e => e.Value.Group == group);
         }
@@ -46,7 +46,7 @@
         /// <param name="group">The group.</param>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public IEnumerable<TEntity> GetByGroup(string group, ClaimsPrincipal user = null)
+        public IEnumerable<TEntity> GetByGroup(string group, ClaimsPrincipal? user = null)
         {
             return _entities.Where(e => e.Value.Group == group).Select(e => (TEntity)e.Value.Clone()).ToList();
         }
@@ -57,7 +57,7 @@
         /// <param name="group">The group.</param>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
-        public IEnumerable<string> GetFullNames(string group, ClaimsPrincipal user = null)
+        public IEnumerable<string> GetFullNames(string group, ClaimsPrincipal? user = null)
         {
             return GetByGroup(group).Select(e => e.FullName).ToList();
         }
@@ -67,7 +67,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
-        public IEnumerable<string> GetFullNames(ClaimsPrincipal user = null)
+        public IEnumerable<string> GetFullNames(ClaimsPrincipal? user = null)
         {
             return _entities.Select(e => e.Value.FullName).ToList();
         }

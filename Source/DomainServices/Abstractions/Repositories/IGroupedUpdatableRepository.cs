@@ -9,6 +9,6 @@
         /// </summary>
         /// <param name="group">The group identifier.</param>
         /// <param name="user">The user.</param>
-        void RemoveByGroup(string group, ClaimsPrincipal user = null);
+        void RemoveByGroup(string group, ClaimsPrincipal? user = null);
     }
 }

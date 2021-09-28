@@ -44,7 +44,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>System.Int32.</returns>
-        public virtual int Count(ClaimsPrincipal user = null)
+        public virtual int Count(ClaimsPrincipal? user = null)
         {
             return _repository.Count(user);
         }
@@ -55,7 +55,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
-        public virtual bool Exists(TEntityId id, ClaimsPrincipal user = null)
+        public virtual bool Exists(TEntityId id, ClaimsPrincipal? user = null)
         {
             return _repository.Contains(id, user);
         }
@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public virtual IEnumerable<TEntity> GetAll(ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntity> GetAll(ClaimsPrincipal? user = null)
         {
             return _repository.GetAll(user);
         }
@@ -75,7 +75,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntityId&gt;.</returns>
-        public virtual IEnumerable<TEntityId> GetIds(ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntityId> GetIds(ClaimsPrincipal? user = null)
         {
             return _repository.GetIds(user);
         }

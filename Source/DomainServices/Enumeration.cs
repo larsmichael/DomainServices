@@ -14,13 +14,6 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Enumeration"/> class.
         /// </summary>
-        protected Enumeration()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Enumeration"/> class.
-        /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="displayName">The display name.</param>
         protected Enumeration(int value, string displayName)
@@ -81,9 +74,9 @@
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns><c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (!(obj is Enumeration otherValue))
+            if (obj is not Enumeration otherValue)
             {
                 return false;
             }

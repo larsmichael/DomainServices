@@ -15,13 +15,6 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseNamedEntity{TId}"/> class.
         /// </summary>
-        protected BaseNamedEntity()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseNamedEntity{TId}"/> class.
-        /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>
         /// <exception cref="ArgumentNullException">name</exception>

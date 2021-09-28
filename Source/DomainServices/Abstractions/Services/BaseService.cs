@@ -12,7 +12,7 @@
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
     public abstract class BaseService<TEntity, TEntityId> : IService<TEntity, TEntityId> where TEntity : IEntity<TEntityId>
     {
-        private readonly ILogger _logger;
+        private readonly ILogger? _logger;
         private readonly IRepository<TEntity, TEntityId> _repository;
 
         /// <summary>
@@ -44,7 +44,7 @@
         /// <param name="user">The user.</param>
         /// <returns>TEntity.</returns>
         /// <exception cref="KeyNotFoundException"></exception>
-        public virtual TEntity Get(TEntityId id, ClaimsPrincipal user = null)
+        public virtual TEntity Get(TEntityId id, ClaimsPrincipal? user = null)
         {
             var maybe = _repository.Get(id, user);
             if (!maybe.HasValue)
@@ -64,7 +64,7 @@
         /// <param name="ids">The identifiers.</param>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        public virtual IEnumerable<TEntity> Get(IEnumerable<TEntityId> ids, ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntity> Get(IEnumerable<TEntityId> ids, ClaimsPrincipal? user = null)
         {
             foreach (var id in ids)
             {

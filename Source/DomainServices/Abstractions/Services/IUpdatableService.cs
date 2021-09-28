@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        void Add(TEntity entity, ClaimsPrincipal user = null);
+        void Add(TEntity entity, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///    Try adding the specified entity without existence check.
@@ -23,28 +23,28 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity was successfully added, <c>false</c> otherwise.</returns>
-        bool TryAdd(TEntity entity, ClaimsPrincipal user = null);
+        bool TryAdd(TEntity entity, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Adds or updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        void AddOrUpdate(TEntity entity, ClaimsPrincipal user = null);
+        void AddOrUpdate(TEntity entity, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Removes the entity with the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
-        void Remove(TEntityId id, ClaimsPrincipal user = null);
+        void Remove(TEntityId id, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        void Update(TEntity entity, ClaimsPrincipal user = null);
+        void Update(TEntity entity, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///    Try updating the specified entity without existence check.
@@ -52,7 +52,7 @@
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity was successfully updated, <c>false</c> otherwise.</returns>
-        bool TryUpdate(TEntity entity, ClaimsPrincipal user = null);
+        bool TryUpdate(TEntity entity, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Occurs when an entity was added.

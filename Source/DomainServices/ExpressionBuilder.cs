@@ -32,13 +32,13 @@
             Expression expression = null;
             foreach (var condition in queryConditions)
             {
-                expression = expression == null ? _ToExpression(parameter, condition) : Expression.AndAlso(expression, _ToExpression(parameter, condition));
+                expression = expression == null ? ToExpression(parameter, condition) : Expression.AndAlso(expression, ToExpression(parameter, condition));
             }
 
             return Expression.Lambda<Func<T, bool>>(expression, parameter);
         }
 
-        private static Expression _ToExpression(ParameterExpression param, QueryCondition condition)
+        private static Expression ToExpression(ParameterExpression param, QueryCondition condition)
         {
             Expression property;
             Expression value;

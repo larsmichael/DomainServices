@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>System.Int32.</returns>
-        int Count(ClaimsPrincipal user = null);
+        int Count(ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Determines whether an entity with the specified identifier exists.
@@ -23,20 +23,20 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns><c>true</c> if entity with the specified identifier exists, <c>false</c> otherwise.</returns>
-        bool Contains(TEntityId id, ClaimsPrincipal user = null);
+        bool Contains(TEntityId id, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Gets all entities.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        IEnumerable<TEntity> GetAll(ClaimsPrincipal user = null);
+        IEnumerable<TEntity> GetAll(ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Gets all entity identifiers.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntityId&gt;.</returns>
-        IEnumerable<TEntityId> GetIds(ClaimsPrincipal user = null);
+        IEnumerable<TEntityId> GetIds(ClaimsPrincipal? user = null);
     }
 }

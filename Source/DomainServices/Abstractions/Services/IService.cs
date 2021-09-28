@@ -16,7 +16,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
         /// <returns>TEntity.</returns>
-        TEntity Get(TEntityId id, ClaimsPrincipal user = null);
+        TEntity Get(TEntityId id, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Gets a list of entities with the specified identifiers.
@@ -24,6 +24,6 @@
         /// <param name="ids">The identifiers.</param>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
-        IEnumerable<TEntity> Get(IEnumerable<TEntityId> ids, ClaimsPrincipal user = null);
+        IEnumerable<TEntity> Get(IEnumerable<TEntityId> ids, ClaimsPrincipal? user = null);
     }
 }

@@ -49,7 +49,7 @@
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
         /// <exception cref="ArgumentException">Cannot be null or empty. - group</exception>
         /// <exception cref="KeyNotFoundException"></exception>
-        public virtual IEnumerable<TEntity> GetByGroup(string group, ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntity> GetByGroup(string group, ClaimsPrincipal? user = null)
         {
             Guard.Against.NullOrEmpty(group, nameof(group));
             if (!_repository.ContainsGroup(group, user))
@@ -67,7 +67,7 @@
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
         /// <exception cref="KeyNotFoundException"></exception>
-        public virtual IEnumerable<TEntity> GetByGroups(IEnumerable<string> groups, ClaimsPrincipal user = null)
+        public virtual IEnumerable<TEntity> GetByGroups(IEnumerable<string> groups, ClaimsPrincipal? user = null)
         {
             var list = new List<TEntity>();
             foreach (var group in groups)
@@ -86,7 +86,7 @@
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
         /// <exception cref="ArgumentException">Cannot be null or empty. - group</exception>
         /// <exception cref="KeyNotFoundException"></exception>
-        public virtual IEnumerable<string> GetFullNames(string group, ClaimsPrincipal user = null)
+        public virtual IEnumerable<string> GetFullNames(string group, ClaimsPrincipal? user = null)
         {
             Guard.Against.NullOrEmpty(group, nameof(group));
             if (!_repository.ContainsGroup(group, user))
@@ -102,7 +102,7 @@
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>IEnumerable&lt;System.String&gt;.</returns>
-        public virtual IEnumerable<string> GetFullNames(ClaimsPrincipal user = null)
+        public virtual IEnumerable<string> GetFullNames(ClaimsPrincipal? user = null)
         {
             return _repository.GetFullNames(user);
         }
@@ -112,7 +112,7 @@
         /// </summary>
         /// <param name="group">The group identifier.</param>
         /// <param name="user">The user.</param>
-        public virtual void RemoveByGroup(string group, ClaimsPrincipal user = null)
+        public virtual void RemoveByGroup(string group, ClaimsPrincipal? user = null)
         {
             if (!_repository.ContainsGroup(group, user))
             {
@@ -144,12 +144,12 @@
         /// <summary>
         ///     Occurs when a group of entities was deleted.
         /// </summary>
-        public event EventHandler<EventArgs<string>> DeletedGroup;
+        public event EventHandler<EventArgs<string>>? DeletedGroup;
 
         /// <summary>
         ///     Occurs when deleting a group of entities.
         /// </summary>
-        public event EventHandler<CancelEventArgs<string>> DeletingGroup;
+        public event EventHandler<CancelEventArgs<string>>? DeletingGroup;
 
         /// <summary>
         ///     Called when a group of entities was deleted.

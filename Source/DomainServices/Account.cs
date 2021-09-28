@@ -13,7 +13,7 @@
     [Serializable]
     public class Account : BaseNamedEntity<string>
     {
-        private byte[] _encryptedPassword;
+        private byte[]? _encryptedPassword;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Account" /> class.
@@ -35,7 +35,7 @@
         ///     Gets or sets a token for account activation or password reset.
         /// </summary>
         /// <value>The activation token.</value>
-        public virtual string Token { get; set; }
+        public virtual string? Token { get; set; }
 
         /// <summary>
         ///     Gets or sets a token for account activation or password reset.
@@ -47,19 +47,19 @@
         ///     Gets or sets the company.
         /// </summary>
         /// <value>The company.</value>
-        public virtual string Company { get; set; }
+        public virtual string? Company { get; set; }
 
         /// <summary>
         ///     Gets or sets the email.
         /// </summary>
         /// <value>The email.</value>
-        public virtual string Email { get; set; }
+        public virtual string? Email { get; set; }
 
         /// <summary>
         ///     Gets or sets the encrypted password.
         /// </summary>
         /// <value>The encrypted password.</value>
-        public virtual byte[] EncryptedPassword
+        public virtual byte[]? EncryptedPassword
         {
             get => _encryptedPassword;
             set => _encryptedPassword = value;
@@ -69,7 +69,7 @@
         ///     Gets or sets the phone number.
         /// </summary>
         /// <value>The phone number.</value>
-        public virtual string PhoneNumber { get; set; }
+        public virtual string? PhoneNumber { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether a user is allowed to change the password of his/her own account.
@@ -84,7 +84,7 @@
         /// </summary>
         /// <value>The roles.</value>
         [Obsolete("You should use user-groups instead of roles for authorization. This property will be removed in a future version.")]
-        public virtual string Roles { get; set; }
+        public virtual string? Roles { get; set; }
 
         /// <summary>
         ///     Gets the roles as an array of strings.
@@ -117,38 +117,17 @@
             return $"{Id} ({Name})";
         }
 
-        /// <summary>
-        ///     Validates the password.
-        /// </summary>
-        /// <param name="password">The password.</param>
-        /// <returns><c>true</c> if password is validated, <c>false</c> otherwise.</returns>
-        [Obsolete("You should validate account passwords using the IAuthenticationRepository.ValidatePassword() method. This method will be removed in a future version.")]
-        public bool ValidatePassword(string password)
-        {
-            if (_encryptedPassword.Length == 20)
-            {
-                return HashPassword(password).SequenceEqual(_encryptedPassword);
-            }
-
-            var salt = new byte[16];
-            Array.Copy(_encryptedPassword, 0, salt, 0, 16);
-            var pbkdfs2 = new Rfc2898DeriveBytes(password, salt, 10000);
-            var hash = new byte[20];
-            Array.Copy(_encryptedPassword, 16, hash, 0, 20);
-            return pbkdfs2.GetBytes(20).SequenceEqual(hash);
-        }
-
-        /// <summary>
-        ///     Hashes the password.
-        /// </summary>
-        /// <param name="password">The password.</param>
-        [Obsolete("You should hash passwords using the HashPasswordStrong() method.")]
-        public static byte[] HashPassword(string password)
-        {
-            var provider = new SHA1CryptoServiceProvider();
-            var encoding = new UnicodeEncoding();
-            return provider.ComputeHash(encoding.GetBytes(password));
-        }
+        ///// <summary>
+        /////     Hashes the password.
+        ///// </summary>
+        ///// <param name="password">The password.</param>
+        //[Obsolete("You should hash passwords using the HashPasswordStrong() method.")]
+        //public static byte[] HashPassword(string password)
+        //{
+        //    var provider = new SHA1CryptoServiceProvider();
+        //    var encoding = new UnicodeEncoding();
+        //    return provider.ComputeHash(encoding.GetBytes(password));
+        //}
 
         /// <summary>
         ///     Hashes the password using a salt.

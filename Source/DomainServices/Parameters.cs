@@ -197,7 +197,7 @@
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if a parameter with specified key and of the specified type is found, <c>false</c> otherwise.</returns>
-        public bool TryGetParameter<T>(string key, out T value)
+        public bool TryGetParameter<T>(string key, out T? value)
         {
             try
             {
@@ -270,7 +270,7 @@
         ///     Returns a <see cref="string" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
-        public override string ToString()
+        public override string? ToString()
         {
             var builder = new StringBuilder();
             if (!this.Any())

@@ -14,20 +14,20 @@
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        void Add(TEntity entity, ClaimsPrincipal user = null);
+        void Add(TEntity entity, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Removes the entity with the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="user">The user.</param>
-        void Remove(TEntityId id, ClaimsPrincipal user = null);
+        void Remove(TEntityId id, ClaimsPrincipal? user = null);
 
         /// <summary>
         ///     Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="user">The user.</param>
-        void Update(TEntity entity, ClaimsPrincipal user = null);
+        void Update(TEntity entity, ClaimsPrincipal? user = null);
     }
 }
