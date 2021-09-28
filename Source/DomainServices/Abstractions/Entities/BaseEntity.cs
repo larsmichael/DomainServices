@@ -14,7 +14,7 @@
     /// </summary>
     /// <typeparam name="TId">The type of the entity identifier.</typeparam>
     [Serializable]
-    public abstract class BaseEntity<TId> : ISecuredEntity<TId>, ICloneable
+    public abstract class BaseEntity<TId> : ISecuredEntity<TId>, ICloneable where TId : notnull
     {
         private readonly Dictionary<object, object> _metadata;
         private readonly List<Permission> _permissions;

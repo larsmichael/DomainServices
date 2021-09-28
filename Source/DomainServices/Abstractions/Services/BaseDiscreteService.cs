@@ -12,7 +12,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public abstract class BaseDiscreteService<TEntity, TEntityId> : BaseService<TEntity, TEntityId>, IDiscreteService<TEntity, TEntityId> where TEntity : IEntity<TEntityId>
+    public abstract class BaseDiscreteService<TEntity, TEntityId> : BaseService<TEntity, TEntityId>, IDiscreteService<TEntity, TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         private readonly IDiscreteRepository<TEntity, TEntityId> _repository;
 

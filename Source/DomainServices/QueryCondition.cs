@@ -56,7 +56,7 @@
         /// <summary>
         ///     Gets the value.
         /// </summary>
-        public object Value { get; }
+        public object? Value { get; }
 
         /// <summary>
         ///     Returns a <see cref="System.String" /> that represents this instance.
@@ -77,7 +77,7 @@
                     sb.Append(v);
                 }
 
-                sb.Append(")");
+                sb.Append(')');
                 values = sb.ToString();
             }
 

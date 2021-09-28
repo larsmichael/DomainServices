@@ -21,7 +21,9 @@
     public class JsonRepository<TEntity, TEntityId> :
         IRepository<TEntity, TEntityId>,
         IDiscreteRepository<TEntity, TEntityId>,
-        IUpdatableRepository<TEntity, TEntityId> where TEntity : IEntity<TEntityId>
+        IUpdatableRepository<TEntity, TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         private static readonly object _syncObject = new();
         private readonly IEqualityComparer<TEntityId>? _comparer;

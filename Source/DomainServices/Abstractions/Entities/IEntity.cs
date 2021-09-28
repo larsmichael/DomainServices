@@ -6,7 +6,7 @@
     ///     Interface IEntity
     /// </summary>
     /// <typeparam name="TId">The type of the identifier.</typeparam>
-    public interface IEntity<out TId>
+    public interface IEntity<out TId> where TId : notnull
     {
         /// <summary>
         ///     Gets the identifier.

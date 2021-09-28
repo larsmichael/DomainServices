@@ -9,7 +9,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public interface IImmutableRepository<in TEntity, in TEntityId> where TEntity : IEntity<TEntityId>
+    public interface IImmutableRepository<in TEntity, in TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         /// <summary>
         ///     Adds the specified entity.

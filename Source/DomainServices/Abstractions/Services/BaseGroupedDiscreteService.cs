@@ -13,7 +13,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public abstract class BaseGroupedDiscreteService<TEntity, TEntityId> : BaseDiscreteService<TEntity, TEntityId>, IGroupedService<TEntity> where TEntity : IEntity<TEntityId>
+    public abstract class BaseGroupedDiscreteService<TEntity, TEntityId> : BaseDiscreteService<TEntity, TEntityId>, IGroupedService<TEntity>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         private readonly IGroupedRepository<TEntity> _repository;
 

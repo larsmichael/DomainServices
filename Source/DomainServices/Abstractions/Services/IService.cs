@@ -8,7 +8,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public interface IService<out TEntity, in TEntityId> where TEntity : IEntity<TEntityId>
+    public interface IService<out TEntity, in TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         /// <summary>
         ///     Gets the entity with the specified identifier.

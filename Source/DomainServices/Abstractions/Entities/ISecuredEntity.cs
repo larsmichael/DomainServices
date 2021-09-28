@@ -8,7 +8,7 @@
     ///     Interface ISecuredEntity
     /// </summary>
     /// <typeparam name="TId">The type of the identifier.</typeparam>
-    public interface ISecuredEntity<out TId> : ITraceableEntity<TId>
+    public interface ISecuredEntity<out TId> : ITraceableEntity<TId> where TId : notnull
     {
         /// <summary>
         ///     Gets the permissions.

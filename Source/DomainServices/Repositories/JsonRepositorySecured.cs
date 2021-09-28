@@ -1,4 +1,5 @@
-﻿namespace DomainServices.Repositories
+﻿#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
+namespace DomainServices.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -22,10 +23,12 @@
     public class JsonRepositorySecured<TEntity, TEntityId> :
         IRepository<TEntity, TEntityId>,
         IDiscreteRepository<TEntity, TEntityId>,
-        IUpdatableRepository<TEntity, TEntityId> where TEntity : ISecuredEntity<TEntityId>
+        IUpdatableRepository<TEntity, TEntityId>
+        where TEntityId : notnull
+        where TEntity : ISecuredEntity<TEntityId>
     {
         private static readonly object _syncObject = new();
-        private readonly IEqualityComparer<TEntityId> _comparer;
+        private readonly IEqualityComparer<TEntityId>? _comparer;
         private readonly FileInfo _fileInfo;
         private readonly string _filePath;
         private readonly JsonSerializerSettings _jsonSerializerSettings;
@@ -112,7 +115,9 @@
         ///     The total number of entities.
         /// </summary>
         /// <param name="user">The user.</param>
+
         public int Count(ClaimsPrincipal user)
+
         {
             lock (_syncObject)
             {

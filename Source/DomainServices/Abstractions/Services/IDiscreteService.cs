@@ -8,7 +8,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public interface IDiscreteService<out TEntity, TEntityId> where TEntity : IEntity<TEntityId>
+    public interface IDiscreteService<out TEntity, TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         /// <summary>
         ///     Counts the number of entities.

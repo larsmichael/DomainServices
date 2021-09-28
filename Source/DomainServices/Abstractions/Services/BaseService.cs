@@ -10,7 +10,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public abstract class BaseService<TEntity, TEntityId> : IService<TEntity, TEntityId> where TEntity : IEntity<TEntityId>
+    public abstract class BaseService<TEntity, TEntityId> : IService<TEntity, TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         private readonly ILogger? _logger;
         private readonly IRepository<TEntity, TEntityId> _repository;

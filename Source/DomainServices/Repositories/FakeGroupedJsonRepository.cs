@@ -66,7 +66,7 @@
         public bool Contains(string id, ClaimsPrincipal? user = null)
         {
             var fullname = GetFullName(id);
-            return Entities.ContainsKey(fullname.Group) && Entities[fullname.Group].ContainsKey(fullname.Name);
+            return Entities.ContainsKey(fullname.Group!) && Entities[fullname.Group!].ContainsKey(fullname.Name);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@
                 return Maybe.Empty<TEntity>();
             }
 
-            Entities.TryGetValue(fullName.Group, out var group);
+            Entities.TryGetValue(fullName.Group!, out var group);
             if (group is null)
             {
                 return Maybe.Empty<TEntity>();
@@ -211,7 +211,7 @@
         public void Remove(string id, ClaimsPrincipal? user = null)
         {
             var fullName = GetFullName(id);
-            Entities.TryGetValue(fullName.Group, out var group);
+            Entities.TryGetValue(fullName.Group!, out var group);
             if (group is null)
             {
                 return;
@@ -224,7 +224,7 @@
 
             if (group.Count == 0)
             {
-                Entities.Remove(fullName.Group);
+                Entities.Remove(fullName.Group!);
             }
         }
 

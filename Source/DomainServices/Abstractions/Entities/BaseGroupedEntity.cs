@@ -7,7 +7,7 @@
     /// </summary>
     /// <typeparam name="TId">The type of the entity identifier.</typeparam>
     [Serializable]
-    public abstract class BaseGroupedEntity<TId> : BaseNamedEntity<TId>, IGroupedEntity<TId>
+    public abstract class BaseGroupedEntity<TId> : BaseNamedEntity<TId>, IGroupedEntity<TId> where TId : notnull
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseGroupedEntity{TId}"/> class.

@@ -11,7 +11,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public class FakeGroupedRepository<TEntity, TEntityId> : FakeRepository<TEntity, TEntityId>, IGroupedRepository<TEntity> where TEntity : IEntity<TEntityId>, ICloneable, IGroupedEntity<TEntityId>
+    public class FakeGroupedRepository<TEntity, TEntityId> : FakeRepository<TEntity, TEntityId>, IGroupedRepository<TEntity>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>, ICloneable, IGroupedEntity<TEntityId>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="FakeGroupedRepository{TEntity,TEntityId}" /> class.

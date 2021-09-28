@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface ITraceableEntity<out TId> : IEntity<TId>
+    public interface ITraceableEntity<out TId> : IEntity<TId> where TId : notnull
     {
         /// <summary>
         ///     Gets the datetime the entity was added to the repository.

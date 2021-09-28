@@ -29,20 +29,20 @@
             }
 
             var parameter = Expression.Parameter(typeof(T), "t");
-            Expression expression = null;
+            Expression? expression = null;
             foreach (var condition in queryConditions)
             {
                 expression = expression == null ? ToExpression(parameter, condition) : Expression.AndAlso(expression, ToExpression(parameter, condition));
             }
 
-            return Expression.Lambda<Func<T, bool>>(expression, parameter);
+            return Expression.Lambda<Func<T, bool>>(expression!, parameter);
         }
 
         private static Expression ToExpression(ParameterExpression param, QueryCondition condition)
         {
             Expression property;
             Expression value;
-            if (!(condition.Value is null) && condition.Value.GetType().IsEnum)
+            if (condition.Value is not null && condition.Value.GetType().IsEnum)
             {
                 var enumType = Enum.GetUnderlyingType(condition.Value.GetType());
                 property = Expression.Convert(Expression.Property(param, condition.Item), enumType);

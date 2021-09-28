@@ -56,8 +56,8 @@
             var i = s.LastIndexOf('/');
             if (i > 0)
             {
-                group = s.Substring(0, i);
-                name = s.Substring(i + 1);
+                group = s[..i];
+                name = s[(i + 1)..];
             }
 
             return new FullName(group, name);

@@ -12,7 +12,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public abstract class BaseImmutableDiscreteService<TEntity, TEntityId> : BaseDiscreteService<TEntity, TEntityId>, IImmutableService<TEntity, TEntityId> where TEntity : IEntity<TEntityId>
+    public abstract class BaseImmutableDiscreteService<TEntity, TEntityId> : BaseDiscreteService<TEntity, TEntityId>, IImmutableService<TEntity, TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>
     {
         private readonly IImmutableRepository<TEntity, TEntityId> _repository;
 

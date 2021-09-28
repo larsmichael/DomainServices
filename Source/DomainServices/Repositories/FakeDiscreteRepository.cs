@@ -11,7 +11,9 @@
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TEntityId">The type of the entity identifier.</typeparam>
-    public class FakeDiscreteRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>, IDiscreteRepository<TEntity, TEntityId> where TEntity : IEntity<TEntityId>, ICloneable
+    public class FakeDiscreteRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>, IDiscreteRepository<TEntity, TEntityId>
+        where TEntityId : notnull
+        where TEntity : IEntity<TEntityId>, ICloneable
     {
         protected Dictionary<TEntityId, TEntity> _entities = new();
 

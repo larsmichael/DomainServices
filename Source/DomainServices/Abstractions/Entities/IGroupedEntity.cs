@@ -4,7 +4,7 @@
     ///     Interface IGroupedEntity
     /// </summary>
     /// <typeparam name="TId">The type of the identifier.</typeparam>
-    public interface IGroupedEntity<out TId> : INamedEntity<TId>
+    public interface IGroupedEntity<out TId> : INamedEntity<TId> where TId : notnull
     {
         /// <summary>
         ///     Gets the full name.

@@ -135,7 +135,7 @@
             lock (_syncObject)
             {
                 var fullname = GetFullName(id);
-                return Entities.ContainsKey(fullname.Group) && Entities[fullname.Group].ContainsKey(fullname.Name);
+                return Entities.ContainsKey(fullname.Group!) && Entities[fullname.Group!].ContainsKey(fullname.Name);
             }
         }
 
@@ -266,7 +266,7 @@
                     return Maybe.Empty<TEntity>();
                 }
 
-                _entities.TryGetValue(fullName.Group, out var group);
+                _entities.TryGetValue(fullName.Group!, out var group);
                 if (group is null)
                 {
                     return Maybe.Empty<TEntity>();
@@ -311,7 +311,7 @@
             lock (_syncObject)
             {
                 var fullName = GetFullName(id);
-                Entities.TryGetValue(fullName.Group, out var group);
+                Entities.TryGetValue(fullName.Group!, out var group);
                 if (group is null)
                 {
                     return;
@@ -324,7 +324,7 @@
 
                 if (group.Count == 0)
                 {
-                    Entities.Remove(fullName.Group);
+                    Entities.Remove(fullName.Group!);
                 }
 
                 Serialize();
