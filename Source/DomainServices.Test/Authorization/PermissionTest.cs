@@ -22,7 +22,7 @@
         [Fact]
         public void OperationNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new Permission(new HashSet<string> { "Administrators", "Editors" }, null));
+            Assert.Throws<ArgumentNullException>(() => new Permission(new HashSet<string> { "Administrators", "Editors" }, null!));
         }
 
         [Fact]

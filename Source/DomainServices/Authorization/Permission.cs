@@ -1,5 +1,6 @@
 ﻿namespace DomainServices.Authorization
 {
+    using Ardalis.GuardClauses;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,8 +17,9 @@
                 throw new ArgumentException("Principals cannot be null or empty.", nameof(principals));
             }
 
+            Guard.Against.NullOrEmpty(operation, nameof(operation));
             Principals = principals;
-            Operation = operation?.Trim().ToLower() ?? throw new ArgumentNullException(nameof(operation));
+            Operation = operation.Trim().ToLower();
             Type = permissionType;
         }
 
