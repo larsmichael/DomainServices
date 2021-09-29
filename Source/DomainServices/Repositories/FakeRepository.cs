@@ -6,6 +6,7 @@
     using System.Linq.Expressions;
     using System.Security.Claims;
     using Abstractions;
+    using ICloneable = Abstractions.ICloneable;
 
     /// <summary>
     ///     In-memory implementation of a discrete and updatable repository. To be used in for example unit tests.
@@ -75,7 +76,7 @@
         {
             foreach (var entity in _entities.Values)
             {
-                yield return (TEntity)entity.Clone();
+                yield return entity.Clone<TEntity>();
             }
         }
 
@@ -98,7 +99,7 @@
         public Maybe<TEntity> Get(TEntityId id, ClaimsPrincipal? user = null)
         {
             _entities.TryGetValue(id, out var entity);
-            return entity == null || entity.Equals(default(TEntity)) ? Maybe.Empty<TEntity>() : ((TEntity)entity.Clone()).ToMaybe();
+            return entity == null || entity.Equals(default(TEntity)) ? Maybe.Empty<TEntity>() : entity.Clone<TEntity>().ToMaybe();
         }
 
         /// <summary>
@@ -150,7 +151,7 @@
         {
             foreach (var entity in _entities.Values.AsQueryable().Where(predicate))
             {
-                yield return (TEntity)entity.Clone();
+                yield return entity.Clone<TEntity>();
             }
         }
 
@@ -164,7 +165,7 @@
             var predicate = ExpressionBuilder.Build<TEntity>(query);
             foreach (var entity in Get(predicate))
             {
-                yield return (TEntity)entity.Clone();
+                yield return entity.Clone<TEntity>();
             }
         }
 

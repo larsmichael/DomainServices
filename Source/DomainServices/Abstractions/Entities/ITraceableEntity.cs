@@ -2,6 +2,10 @@
 {
     using System;
 
+    /// <summary>
+    ///     Interface ITraceableEntity
+    /// </summary>
+    /// <typeparam name="TId">The type of the identifier.</typeparam>
     public interface ITraceableEntity<out TId> : IEntity<TId> where TId : notnull
     {
         /// <summary>

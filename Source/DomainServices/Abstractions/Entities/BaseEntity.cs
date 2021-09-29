@@ -1,10 +1,9 @@
 ﻿namespace DomainServices.Abstractions
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Runtime.Serialization.Formatters.Binary;
     using System.Security.Claims;
     using Ardalis.GuardClauses;
     using Authorization;
@@ -13,7 +12,6 @@
     ///     Abstract base class for an entity
     /// </summary>
     /// <typeparam name="TId">The type of the entity identifier.</typeparam>
-    [Serializable]
     public abstract class BaseEntity<TId> : ISecuredEntity<TId>, ICloneable where TId : notnull
     {
         private readonly Dictionary<object, object> _metadata;
@@ -36,13 +34,11 @@
         /// <summary>
         ///     Clones this instance.
         /// </summary>
-        public object Clone()
+        public T Clone<T>()
         {
-            using var stream = new MemoryStream();
-            var formatter = new BinaryFormatter();
-            formatter.Serialize(stream, this);
-            stream.Position = 0;
-            return formatter.Deserialize(stream);
+            var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
+            var serializeSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(this, serializeSettings), deserializeSettings);
         }
 
         /// <summary>

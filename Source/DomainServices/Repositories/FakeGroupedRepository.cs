@@ -1,6 +1,5 @@
 ﻿namespace DomainServices.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
@@ -50,7 +49,7 @@
         /// <returns>IEnumerable&lt;TEntity&gt;.</returns>
         public IEnumerable<TEntity> GetByGroup(string group, ClaimsPrincipal? user = null)
         {
-            return _entities.Where(e => e.Value.Group == group).Select(e => (TEntity)e.Value.Clone()).ToList();
+            return _entities.Where(e => e.Value.Group == group).Select(e => e.Value.Clone<TEntity>()).ToList();
         }
 
         /// <summary>

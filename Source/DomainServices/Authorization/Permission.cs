@@ -6,8 +6,7 @@
     using System.Linq;
     using Newtonsoft.Json;
 
-    [Serializable]
-    public struct Permission
+    public readonly struct Permission
     {
         [JsonConstructor]
         public Permission(HashSet<string> principals, string operation, PermissionType permissionType = PermissionType.Allowed)

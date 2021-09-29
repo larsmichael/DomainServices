@@ -9,7 +9,6 @@
     /// <summary>
     ///     Class Account.
     /// </summary>
-    [Serializable]
     public class Account : BaseNamedEntity<string>
     {
         private byte[]? _encryptedPassword;

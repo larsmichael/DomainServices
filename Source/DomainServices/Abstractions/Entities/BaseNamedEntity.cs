@@ -7,7 +7,6 @@
     /// Abstract base class for a named entity.
     /// </summary>
     /// <typeparam name="TId">The type of the entity identifier.</typeparam>
-    [Serializable]
     public abstract class BaseNamedEntity<TId> : BaseEntity<TId>, INamedEntity<TId> where TId : notnull
     {
         private string _name;

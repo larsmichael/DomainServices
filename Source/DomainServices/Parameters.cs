@@ -11,7 +11,6 @@
     /// <summary>
     ///     Class Parameters.
     /// </summary>
-    [Serializable]
     public class Parameters : Dictionary<string, string>
     {
         /// <summary>

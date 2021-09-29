@@ -4,7 +4,6 @@
     using Abstractions;
     using Newtonsoft.Json;
 
-    [Serializable]
     public class FakeGroupedEntity : BaseGroupedEntity<string>
     {
         public FakeGroupedEntity(string name, string group)

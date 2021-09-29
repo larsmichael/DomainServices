@@ -8,7 +8,6 @@
     /// <summary>
     /// Abstract base class for enumerations
     /// </summary>
-    [Serializable]
     public abstract class Enumeration
     {
         /// <summary>

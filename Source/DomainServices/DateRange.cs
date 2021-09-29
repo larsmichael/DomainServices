@@ -6,7 +6,6 @@
     /// <summary>
     ///     Class representing a date range.
     /// </summary>
-    [Serializable]
     public class DateRange
     {
         /// <summary>

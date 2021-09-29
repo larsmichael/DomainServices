@@ -10,7 +10,6 @@
     /// <summary>
     ///     Class QueryCondition.
     /// </summary>
-    [Serializable]
     public class QueryCondition
     {
         /// <summary>

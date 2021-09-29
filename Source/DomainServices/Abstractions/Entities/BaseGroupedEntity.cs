@@ -6,7 +6,6 @@
     /// Abstract base class for a grouped, named entity
     /// </summary>
     /// <typeparam name="TId">The type of the entity identifier.</typeparam>
-    [Serializable]
     public abstract class BaseGroupedEntity<TId> : BaseNamedEntity<TId>, IGroupedEntity<TId> where TId : notnull
     {
         /// <summary>
