@@ -107,5 +107,15 @@
 
             Assert.False(entity.IsAllowed(user, "read"));
         }
+
+        [Fact]
+        public void CloneIsOk()
+        {
+            var entity = new FakeEntity("MyEntity", "My Entity");
+            var clone = entity.Clone<FakeEntity>();
+            Assert.Equal(entity.Id, clone.Id);
+            Assert.Equal(entity.Name, clone.Name);
+            Assert.Equal(entity.FullName, clone.FullName);
+        }
     }
 }
