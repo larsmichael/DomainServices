@@ -131,7 +131,12 @@
 
         private class DiscreteService : BaseDiscreteService<FakeEntity, string>
         {
-            public DiscreteService(IDiscreteRepository<FakeEntity, string> repository, ILogger logger = null)
+            public DiscreteService(IDiscreteRepository<FakeEntity, string> repository)
+                : base(repository)
+            {
+            }
+
+            public DiscreteService(IDiscreteRepository<FakeEntity, string> repository, ILogger logger)
                 : base(repository, logger)
             {
             }

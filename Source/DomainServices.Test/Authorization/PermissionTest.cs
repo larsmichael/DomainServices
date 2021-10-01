@@ -10,7 +10,7 @@
         [Fact]
         public void PrincipalsNullThrows()
         {
-            Assert.Throws<ArgumentException>(() => new Permission(null, "read"));
+            Assert.Throws<ArgumentException>(() => new Permission(null!, "read"));
         }
 
         [Fact]

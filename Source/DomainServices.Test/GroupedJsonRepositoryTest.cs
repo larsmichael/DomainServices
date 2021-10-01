@@ -27,7 +27,7 @@
         [Fact]
         public void CreateWithNullFilePathThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new GroupedJsonRepository<FakeGroupedEntity>(null));
+            Assert.Throws<ArgumentNullException>(() => new GroupedJsonRepository<FakeGroupedEntity>(null!));
         }
 
         [Theory, AutoData]
@@ -108,12 +108,14 @@
         public void ContainsGroupIsOk(FakeGroupedEntity entity)
         {
             _repository.Add(entity);
+            Assert.NotNull(entity.Group);
             Assert.True(_repository.ContainsGroup(entity.Group));
         }
 
         [Theory, AutoData]
         public void DoesNotContainGroupIsOk(FakeGroupedEntity entity)
         {
+            Assert.NotNull(entity.Group);
             Assert.False(_repository.ContainsGroup(entity.Group));
         }
 
@@ -141,6 +143,8 @@
             _repository.Add(entity2);
             var entity3 = new FakeGroupedEntity("My Entity", entity1.Group);
             _repository.Add(entity3);
+            Assert.NotNull(entity1.Group);
+            Assert.NotNull(entity2.Group);
             Assert.Equal(2, _repository.GetByGroup(entity1.Group).Count());
             Assert.Single((IEnumerable) _repository.GetByGroup(entity2.Group));
         }
@@ -152,6 +156,8 @@
             _repository.Add(entity2);
             var entity3 = new FakeGroupedEntity("My Entity", entity1.Group);
             _repository.Add(entity3);
+            Assert.NotNull(entity1.Group);
+            Assert.NotNull(entity2.Group);
             Assert.Equal(2, _repository.GetFullNames(entity1.Group).Count());
             Assert.Single((IEnumerable) _repository.GetFullNames(entity2.Group));
             Assert.Equal(entity2.FullName, _repository.GetFullNames(entity2.Group).First());
@@ -267,6 +273,7 @@
         public void GetByGroupReturnsClones(FakeGroupedEntity entity)
         {
             _repository.Add(entity);
+            Assert.NotNull(entity.Group);
             var e = _repository.GetByGroup(entity.Group).First();
             e.Metadata.Add("Description", "A description");
 

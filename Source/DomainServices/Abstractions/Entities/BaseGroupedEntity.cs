@@ -1,7 +1,5 @@
 ﻿namespace DomainServices.Abstractions
 {
-    using System;
-
     /// <summary>
     /// Abstract base class for a grouped, named entity
     /// </summary>
@@ -14,7 +12,7 @@
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="group">The group.</param>
-        protected BaseGroupedEntity(TId id, string name, string group)
+        protected BaseGroupedEntity(TId id, string name, string? group)
             : base(id, name)
         {
             Group = group;
@@ -30,7 +28,7 @@
         /// Gets the group.
         /// </summary>
         /// <value>The group.</value>
-        public string Group { get; }
+        public string? Group { get; }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

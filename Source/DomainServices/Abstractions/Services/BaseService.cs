@@ -36,7 +36,7 @@
         protected BaseService(IRepository<TEntity, TEntityId> repository, ILogger logger)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
         }
 
         /// <summary>

@@ -43,7 +43,7 @@
         [Fact]
         public void GetByGroupForNullGroupThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => _service.GetByGroup(null));
+            Assert.Throws<ArgumentNullException>(() => _service.GetByGroup(null!));
         }
 
         [Fact]
@@ -61,7 +61,7 @@
         [Fact]
         public void GetFullNamesForNullOrEmptyGroupThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => _service.GetFullNames(null, ClaimsPrincipal.Current));
+            Assert.Throws<ArgumentNullException>(() => _service.GetFullNames(null!, ClaimsPrincipal.Current));
             Assert.Throws<ArgumentException>(() => _service.GetFullNames(""));
         }
 
@@ -182,6 +182,7 @@
             Assert.True(fullNames.Any());
 
             var fullName = FullName.Parse(fullNames[0]);
+            Assert.NotNull(fullName.Group);
             Assert.NotEmpty(fullName.Group);
             Assert.NotEmpty(fullName.Name);
         }
@@ -220,8 +221,8 @@
         public void AddOrUpdateIsOk(GroupedUpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Added += (s, _) => { raisedEvents.Add("Added"); };
-            service.Updated += (s, _) => { raisedEvents.Add("Updated"); };
+            service.Added += (_, _) => { raisedEvents.Add("Added"); };
+            service.Updated += (_, _) => { raisedEvents.Add("Updated"); };
             service.AddOrUpdate(entity);
             var updated = new FakeEntity(entity.Id, "Updated name");
             service.AddOrUpdate(updated);
@@ -304,8 +305,8 @@
         public void EventsAreRaisedOnAdd(GroupedUpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Adding += (s, e) => { raisedEvents.Add("Adding"); };
-            service.Added += (s, e) => { raisedEvents.Add("Added"); };
+            service.Adding += (_, _) => { raisedEvents.Add("Adding"); };
+            service.Added += (_, _) => { raisedEvents.Add("Added"); };
 
             service.Add(entity);
 
@@ -317,8 +318,8 @@
         public void EventsAreRaisedOnUpdate(GroupedUpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Updating += (s, e) => { raisedEvents.Add("Updating"); };
-            service.Updated += (s, e) => { raisedEvents.Add("Updated"); };
+            service.Updating += (_, _) => { raisedEvents.Add("Updating"); };
+            service.Updated += (_, _) => { raisedEvents.Add("Updated"); };
             service.Add(entity);
 
             var updatedAccount = new FakeEntity(entity.Id, "Updated name");
@@ -332,8 +333,8 @@
         public void EventsAreRaisedOnRemove(GroupedUpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Deleting += (s, e) => { raisedEvents.Add("Deleting"); };
-            service.Deleted += (s, e) => { raisedEvents.Add("Deleted"); };
+            service.Deleting += (_, _) => { raisedEvents.Add("Deleting"); };
+            service.Deleted += (_, _) => { raisedEvents.Add("Deleted"); };
             service.Add(entity);
 
             service.Remove(entity.Id);
@@ -346,10 +347,11 @@
         public void EventsAreRaisedOnRemoveByGroup(GroupedUpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.DeletingGroup += (s, e) => { raisedEvents.Add("DeletingGroup"); };
-            service.DeletedGroup += (s, e) => { raisedEvents.Add("DeletedGroup"); };
+            service.DeletingGroup += (_, _) => { raisedEvents.Add("DeletingGroup"); };
+            service.DeletedGroup += (_, _) => { raisedEvents.Add("DeletedGroup"); };
             service.Add(entity);
 
+            Assert.NotNull(entity.Group);
             service.RemoveByGroup(entity.Group);
 
             Assert.Equal("DeletingGroup", raisedEvents[0]);
@@ -363,7 +365,7 @@
             {
             }
 
-            public GroupedUpdatableService(IGroupedRepository<FakeEntity> repository, ILogger logger = null)
+            public GroupedUpdatableService(IGroupedRepository<FakeEntity> repository, ILogger logger)
                 : base(repository, logger)
             {
             }

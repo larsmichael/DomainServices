@@ -9,15 +9,15 @@
         [Fact]
         public void CreateWithNullOrEmptySourceThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new LogEntry(LogLevel.Error, "SomeError", null));
+            Assert.Throws<ArgumentNullException>(() => new LogEntry(LogLevel.Error, "SomeError", null!));
             Assert.Throws<ArgumentException>(() => new LogEntry(LogLevel.Error, "SomeError", ""));
         }
 
         [Fact]
         public void CreateWithNullOrEmptyTextThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new LogEntry(LogLevel.Error, null, null));
-            Assert.Throws<ArgumentException>(() => new LogEntry(LogLevel.Error, "", null));
+            Assert.Throws<ArgumentNullException>(() => new LogEntry(LogLevel.Error, null!, null!));
+            Assert.Throws<ArgumentException>(() => new LogEntry(LogLevel.Error, "", null!));
         }
 
         [Fact]

@@ -9,7 +9,7 @@
         [Fact]
         public void FilterNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => ExpressionBuilder.Build<Account>(null));
+            Assert.Throws<ArgumentNullException>(() => ExpressionBuilder.Build<Account>(null!));
         }
 
         [Fact]

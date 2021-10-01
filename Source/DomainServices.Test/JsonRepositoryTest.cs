@@ -27,7 +27,7 @@
         [Fact]
         public void CreateWithNullFilePathThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new JsonRepository<FakeEntity, string>(null));
+            Assert.Throws<ArgumentNullException>(() => new JsonRepository<FakeEntity, string>(null!));
         }
 
         [Theory, AutoData]

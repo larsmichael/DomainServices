@@ -39,6 +39,10 @@
             var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
             var serializeSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(this, serializeSettings), deserializeSettings);
+
+#warning To be used when using System.Text.Json instead of Newtonsoft.Json. Possibly, custom JsonOptions are not necessary.
+            //var json = JsonSerializer.Serialize(this, typeof(T), _jsonOptions);
+            //return JsonSerializer.Deserialize<T>(json, _jsonOptions)!;
         }
 
         /// <summary>

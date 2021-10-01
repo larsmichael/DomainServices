@@ -54,7 +54,7 @@
         }
 
         [Fact]
-        public void CreateWhithoutFromIsOk()
+        public void CreateWithoutFromIsOk()
         {
             var dateTime = DateTime.Now;
             var range = new DateRange(to: dateTime);
@@ -63,9 +63,8 @@
         }
 
         [Fact]
-        public void CreateWhithoutFromAndToIsOk()
+        public void CreateWithoutFromAndToIsOk()
         {
-            var dateTime = DateTime.Now;
             var range = new DateRange();
             Assert.Equal(DateTime.MinValue, range.From);
             Assert.Equal(DateTime.MaxValue, range.To);
@@ -115,7 +114,7 @@
         }
 
         [Fact]
-        public void GetIntersectionIsOK()
+        public void GetIntersectionIsOk()
         {
             // --- range ---|
             //           |--- anotherRange ---|
@@ -157,7 +156,7 @@
         }
 
         [Fact]
-        public void ToStringIsOK()
+        public void ToStringIsOk()
         {
             var now = DateTime.Now;
             var range = new DateRange(now, now.AddHours(1));

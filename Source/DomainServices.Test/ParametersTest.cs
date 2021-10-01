@@ -10,7 +10,7 @@
         [Fact]
         public void ParseNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => Parameters.Parse(null));
+            Assert.Throws<ArgumentNullException>(() => Parameters.Parse(null!));
         }
 
         [Fact]

@@ -49,7 +49,7 @@
             var filePath = Path.Combine(Path.GetTempPath(), "__test.log");
             var logger = new SimpleLogger(filePath);
             var raisedEvents = new List<string>();
-            logger.EntryAdded += (s, e) => { raisedEvents.Add("Added"); };
+            logger.EntryAdded += (_, _) => { raisedEvents.Add("Added"); };
             logger.Log(logEntry);
             Assert.Equal("Added", raisedEvents[0]);
             File.Delete(filePath);

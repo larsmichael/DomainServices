@@ -100,7 +100,12 @@
 
         private class Service : BaseService<FakeEntity, string>
         {
-            public Service(IRepository<FakeEntity, string> repository, ILogger logger = null)
+            public Service(IRepository<FakeEntity, string> repository)
+                : base(repository)
+            {
+            }
+
+            public Service(IRepository<FakeEntity, string> repository, ILogger logger)
                 : base(repository, logger)
             {
             }

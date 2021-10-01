@@ -10,8 +10,8 @@
         [Fact]
         public void CreateWithNullOrEmptyQueryThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new Query<Account>(default(QueryCondition)));
-            Assert.Throws<ArgumentNullException>(() => new Query<Account>(default(IEnumerable<QueryCondition>)));
+            Assert.Throws<ArgumentNullException>(() => new Query<Account>(default(QueryCondition)!));
+            Assert.Throws<ArgumentNullException>(() => new Query<Account>(default(IEnumerable<QueryCondition>)!));
             Assert.Throws<ArgumentException>(() => new Query<Account>(new List<QueryCondition>()));
         }
 
@@ -20,8 +20,8 @@
         {
             var e = Assert.Throws<Exception>(() => new Query<Account>
             {
-                new QueryCondition("Name", QueryOperator.Like, "John"),
-                new QueryCondition("Activated", "true")
+                new("Name", QueryOperator.Like, "John"),
+                new("Activated", "true")
             });
 
             Assert.Contains("The value must be assignable to the type", e.Message);
@@ -32,8 +32,8 @@
         {
             var e = Assert.Throws<Exception>(() => new Query<Account>
             {
-                new QueryCondition("Name", QueryOperator.Any, new [] {1, 2, 3}),
-                new QueryCondition("Activated", true)
+                new("Name", QueryOperator.Any, new [] {1, 2, 3}),
+                new("Activated", true)
             });
 
             Assert.Contains("The value must be assignable to the type", e.Message);
@@ -57,7 +57,7 @@
         [Fact]
         public void ToExpressionForNonExistingPropertyThrows()
         {
-            var conditions = new List<QueryCondition> { new QueryCondition("NonExistingProperty", QueryOperator.Equal, "value") };
+            var conditions = new List<QueryCondition> { new("NonExistingProperty", QueryOperator.Equal, "value") };
             var query = new Query<FakeEntity>(conditions);
 
             Assert.Throws<ArgumentException>(() => query.ToExpression());
@@ -75,7 +75,7 @@
         [InlineData(QueryOperator.SpatiallyTransform)]
         public void ToExpressionForNotSupportedOperatorThrows(QueryOperator queryOperator)
         {
-            var conditions = new List<QueryCondition> { new QueryCondition("Name", queryOperator, "John Doe") };
+            var conditions = new List<QueryCondition> { new("Name", queryOperator, "John Doe") };
             var query = new Query<Account>(conditions);
 
             Assert.Throws<NotImplementedException>(() => query.ToExpression());
@@ -86,9 +86,9 @@
         {
             var conditions = new List<QueryCondition>
             {
-                new QueryCondition("Id", QueryOperator.Equal, "john.doe"),
-                new QueryCondition("Activated", QueryOperator.Equal, true),
-                new QueryCondition("Company", QueryOperator.Equal, null)
+                new("Id", QueryOperator.Equal, "john.doe"),
+                new("Activated", QueryOperator.Equal, true),
+                new("Company", QueryOperator.Equal, null!)
             };
 
             var query = new Query<Account>(conditions);
@@ -101,8 +101,8 @@
         {
             var query = new Query<Account>
             {
-                new QueryCondition("Id", QueryOperator.Equal, "john.doe"),
-                new QueryCondition("TokenExpiration", QueryOperator.GreaterThan, DateTime.Now.AddDays(-1))
+                new("Id", QueryOperator.Equal, "john.doe"),
+                new("TokenExpiration", QueryOperator.GreaterThan, DateTime.Now.AddDays(-1))
             };
 
             Assert.Equal(2, query.Count());
@@ -113,9 +113,9 @@
         {
             var conditions = new List<QueryCondition>
             {
-                new QueryCondition("Id", QueryOperator.Any, new object[] {"john.doe", "donald.duck"}),
-                new QueryCondition("TokenExpiration", QueryOperator.GreaterThan, DateTime.Now.AddDays(-1)),
-                new QueryCondition("Company", null),
+                new("Id", QueryOperator.Any, new object[] {"john.doe", "donald.duck"}),
+                new("TokenExpiration", QueryOperator.GreaterThan, DateTime.Now.AddDays(-1)),
+                new("Company", null!)
             };
 
             var query = new Query<Account>(conditions);

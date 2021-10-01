@@ -140,8 +140,8 @@
         public void EventsAreRaisedOnAdd(FakeImmutableEntity entity)
         {
             var raisedEvents = new List<string>();
-            _service.Adding += (s, e) => { raisedEvents.Add("Adding"); };
-            _service.Added += (s, e) => { raisedEvents.Add("Added"); };
+            _service.Adding += (_, _) => { raisedEvents.Add("Adding"); };
+            _service.Added += (_, _) => { raisedEvents.Add("Added"); };
 
             _service.Add(entity);
 
@@ -153,8 +153,8 @@
         public void EventsAreRaisedOnRemove(FakeImmutableEntity entity)
         {
             var raisedEvents = new List<string>();
-            _service.Deleting += (s, e) => { raisedEvents.Add("Deleting"); };
-            _service.Deleted += (s, e) => { raisedEvents.Add("Deleted"); };
+            _service.Deleting += (_, _) => { raisedEvents.Add("Deleting"); };
+            _service.Deleted += (_, _) => { raisedEvents.Add("Deleted"); };
             _service.Add(entity);
 
             _service.Remove(entity.Id);
@@ -165,7 +165,12 @@
 
         private class ImmutableDiscreteService : BaseImmutableDiscreteService<FakeImmutableEntity>
         {
-            public ImmutableDiscreteService(IImmutableRepository<FakeImmutableEntity> repository, ILogger logger = null)
+            public ImmutableDiscreteService(IImmutableRepository<FakeImmutableEntity> repository)
+                : base(repository)
+            {
+            }
+
+            public ImmutableDiscreteService(IImmutableRepository<FakeImmutableEntity> repository, ILogger logger)
                 : base(repository, logger)
             {
             }

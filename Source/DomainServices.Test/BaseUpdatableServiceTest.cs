@@ -114,8 +114,8 @@
         public void AddOrUpdateIsOk(UpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Added += (s, _) => { raisedEvents.Add("Added"); };
-            service.Updated += (s, _) => { raisedEvents.Add("Updated"); };
+            service.Added += (_, _) => { raisedEvents.Add("Added"); };
+            service.Updated += (_, _) => { raisedEvents.Add("Updated"); };
             service.AddOrUpdate(entity);
             var updated = new FakeEntity(entity.Id, "Updated name");
             service.AddOrUpdate(updated);
@@ -179,8 +179,8 @@
         public void EventsAreRaisedOnAdd(UpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Adding += (s, e) => { raisedEvents.Add("Adding"); };
-            service.Added += (s, e) => { raisedEvents.Add("Added"); };
+            service.Adding += (_, _) => { raisedEvents.Add("Adding"); };
+            service.Added += (_, _) => { raisedEvents.Add("Added"); };
 
             service.Add(entity);
 
@@ -192,8 +192,8 @@
         public void EventsAreRaisedOnUpdate(UpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Updating += (s, e) => { raisedEvents.Add("Updating"); };
-            service.Updated += (s, e) => { raisedEvents.Add("Updated"); };
+            service.Updating += (_, _) => { raisedEvents.Add("Updating"); };
+            service.Updated += (_, _) => { raisedEvents.Add("Updated"); };
             service.Add(entity);
 
             var updatedAccount = new FakeEntity(entity.Id, "Updated name");
@@ -207,8 +207,8 @@
         public void EventsAreRaisedOnRemove(UpdatableService service, FakeEntity entity)
         {
             var raisedEvents = new List<string>();
-            service.Deleting += (s, e) => { raisedEvents.Add("Deleting"); };
-            service.Deleted += (s, e) => { raisedEvents.Add("Deleted"); };
+            service.Deleting += (_, _) => { raisedEvents.Add("Deleting"); };
+            service.Deleted += (_, _) => { raisedEvents.Add("Deleted"); };
             service.Add(entity);
 
             service.Remove(entity.Id);
@@ -224,7 +224,7 @@
             {
             }
 
-            public UpdatableService(IUpdatableRepository<FakeEntity, string> repository, ILogger logger = null)
+            public UpdatableService(IUpdatableRepository<FakeEntity, string> repository, ILogger logger)
                 : base(repository, logger)
             {
             }

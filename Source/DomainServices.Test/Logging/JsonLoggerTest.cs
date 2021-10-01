@@ -29,7 +29,7 @@
         [Fact]
         public void CreateWithNullFilePathThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new JsonLogger(null));
+            Assert.Throws<ArgumentNullException>(() => new JsonLogger(null!));
         }
 
         [Fact]
@@ -63,7 +63,7 @@
         public void EntryAddedEventIsRaisedOnLog()
         {
             var raisedEvents = new List<string>();
-            _logger.EntryAdded += (s, e) => { raisedEvents.Add("Added"); };
+            _logger.EntryAdded += (_, _) => { raisedEvents.Add("Added"); };
             var entry = _fixture.Create<LogEntry>();
             _logger.Log(entry);
             Assert.Equal("Added", raisedEvents[0]);

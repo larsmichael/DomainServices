@@ -16,6 +16,6 @@
         ///     Gets the group.
         /// </summary>
         /// <value>The group.</value>
-        string Group { get; }
+        string? Group { get; }
     }
 }

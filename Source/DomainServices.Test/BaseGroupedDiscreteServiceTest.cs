@@ -43,7 +43,7 @@
         [Fact]
         public void GetByGroupForNullGroupThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => _service.GetByGroup(null));
+            Assert.Throws<ArgumentNullException>(() => _service.GetByGroup(null!));
         }
 
         [Fact]
@@ -62,7 +62,7 @@
         public void GetFullNamesForNullOrEmptyGroupThrows()
         {
             Assert.Throws<ArgumentException>(() => _service.GetFullNames(""));
-            Assert.Throws<ArgumentNullException>(() => _service.GetFullNames(null, ClaimsPrincipal.Current));
+            Assert.Throws<ArgumentNullException>(() => _service.GetFullNames(null!, ClaimsPrincipal.Current));
         }
 
         [Theory, AutoData]
@@ -158,6 +158,7 @@
             Assert.True(fullNames.Any());
 
             var fullName = FullName.Parse(fullNames[0]);
+            Assert.NotNull(fullName.Group);
             Assert.NotEmpty(fullName.Group);
             Assert.NotEmpty(fullName.Name);
         }
@@ -201,7 +202,12 @@
 
         private class GroupedDiscreteService : BaseGroupedDiscreteService<FakeEntity, string>
         {
-            public GroupedDiscreteService(IGroupedRepository<FakeEntity> repository, ILogger logger = null)
+            public GroupedDiscreteService(IGroupedRepository<FakeEntity> repository)
+                : base(repository)
+            {
+            }
+
+            public GroupedDiscreteService(IGroupedRepository<FakeEntity> repository, ILogger logger)
                 : base(repository, logger)
             {
             }
