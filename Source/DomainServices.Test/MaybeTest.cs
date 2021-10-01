@@ -28,15 +28,6 @@
         }
 
         [Fact]
-        [Obsolete]
-        public void SingleIsOk()
-        {
-            var maybe = new Maybe<int>(5);
-            Assert.True(maybe.HasValue);
-            Assert.Equal(5, maybe.Single());
-        }
-
-        [Fact]
         public void ToMaybeIsOk()
         {
             var maybe = 5.ToMaybe();

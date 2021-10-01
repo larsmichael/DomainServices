@@ -1,7 +1,6 @@
 ﻿namespace DomainServices
 {
     using System;
-    using System.Linq;
     using System.Security.Cryptography;
     using Ardalis.GuardClauses;
     using Abstractions;
@@ -78,23 +77,6 @@
         public virtual bool AllowMePasswordChange { get; set; } = true;
 
         /// <summary>
-        ///     Gets or sets the roles as a comma-separated string of roles.
-        /// </summary>
-        /// <value>The roles.</value>
-        [Obsolete("You should use user-groups instead of roles for authorization. This property will be removed in a future version.")]
-        public virtual string? Roles { get; set; }
-
-        /// <summary>
-        ///     Gets the roles as an array of strings.
-        /// </summary>
-        /// <returns>System.String[].</returns>
-        [Obsolete("You should use user-groups instead of roles for authorization. This method will be removed in a future version.")]
-        public virtual string[] GetRoles()
-        {
-            return Roles is null ? Array.Empty<string>() : Roles.Split(',').Select(r => r.Trim()).ToArray();
-        }
-
-        /// <summary>
         ///     Sets the password.
         /// </summary>
         /// <param name="password">The password.</param>
@@ -114,18 +96,6 @@
         {
             return $"{Id} ({Name})";
         }
-
-        ///// <summary>
-        /////     Hashes the password.
-        ///// </summary>
-        ///// <param name="password">The password.</param>
-        //[Obsolete("You should hash passwords using the HashPasswordStrong() method.")]
-        //public static byte[] HashPassword(string password)
-        //{
-        //    var provider = new SHA1CryptoServiceProvider();
-        //    var encoding = new UnicodeEncoding();
-        //    return provider.ComputeHash(encoding.GetBytes(password));
-        //}
 
         /// <summary>
         ///     Hashes the password using a salt.

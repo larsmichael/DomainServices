@@ -7,7 +7,6 @@
     /// </summary>
     /// <typeparam name="T">Type of value.</typeparam>
     public readonly struct Maybe<T>
-
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Maybe{T}" /> class.
@@ -78,16 +77,7 @@
         /// <returns>Maybe&lt;T&gt;.</returns>
         public static Maybe<T> Empty<T>()
         {
-            return new();
-        }
-
-        /// <summary>
-        ///     Return value of this instance - for build compatibility
-        /// </summary>
-        [Obsolete("Use Value instead. This method will be removed in a future version.")]
-        public static T Single<T>(this Maybe<T> maybe)
-        {
-            return maybe.Value;
+            return new Maybe<T>();
         }
     }
 }
