@@ -51,7 +51,6 @@
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
         public void NotEqualsIsOk()
         {
             Assert.NotEqual(SomeType.Type1, SomeType.Type0);
@@ -68,11 +67,11 @@
 
         private class SomeType : Enumeration
         {
-            public static readonly SomeType Type0 = new SomeType(0, "Type 0");
+            public static readonly SomeType Type0 = new(0, "Type 0");
 
-            public static readonly SomeType Type1 = new SomeType(1, "Type 1");
+            public static readonly SomeType Type1 = new(1, "Type 1");
 
-            public static readonly SomeType Type2 = new SomeType(2, "Type 2");
+            public static readonly SomeType Type2 = new(2, "Type 2");
 
             private SomeType(int value, string displayName)
                 : base(value, displayName)
