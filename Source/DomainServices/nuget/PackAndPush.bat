@@ -9,8 +9,8 @@ set logfile=%datetime:~0,8%-%datetime:~8,6%.log
 
 del ..\bin\%configuration%\*.nupkg
 del ..\bin\%configuration%\*.snupkg
-dotnet pack ..\DHI.Services.csproj --configuration %configuration% > %logfile% 2>&1
-dotnet nuget push ..\bin\%configuration%\DHI.Services.*.nupkg -k %NUGET_API_KEY% -s https://api.nuget.org/v3/index.json >> %logfile% 2>&1
+dotnet pack ..\DomainServices.csproj --configuration %configuration% > %logfile% 2>&1
+dotnet nuget push ..\bin\%configuration%\DomainServices.*.nupkg -k %NUGET_API_KEY_PERSONAL% -s https://api.nuget.org/v3/index.json >> %logfile% 2>&1
 
 notepad %logfile%
 

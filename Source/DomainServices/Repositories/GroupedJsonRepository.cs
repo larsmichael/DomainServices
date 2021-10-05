@@ -340,6 +340,11 @@
         {
             lock (_syncObject)
             {
+                if (updatedEntity.Group is null)
+                {
+                    throw new ArgumentException($"The entity '{updatedEntity}' does not belong to a group.", nameof(updatedEntity));
+                }
+
                 var group = Entities[updatedEntity.Group];
                 if (updatedEntity is ITraceableEntity<string> entity)
                 {

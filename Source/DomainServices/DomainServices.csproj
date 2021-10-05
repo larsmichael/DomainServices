@@ -5,14 +5,14 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);nuget\*.log</DefaultItemExcludes>
     <NoWarn>1701;1702;1591</NoWarn>
     <PackageId>DomainServices</PackageId>
-    <Version>1.0.0-rc01</Version>
+    <Version>0.9.0-rc01</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <Company>DHI</Company>
-    <Authors>dhigroup</Authors>
+    <Authors>lars.michael</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/DomainServices/blob/master/README.md</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/DomainServices</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/larsmichael/DomainServices/blob/master/README.md</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/larsmichael/DomainServices</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Title>Domain Services</Title>
     <Description>Lightweight Domain Services (DDD) Library.</Description>
     <Product>Domain Services</Product>
     <PackageTags>DDD, Clean-Architecture</PackageTags>
