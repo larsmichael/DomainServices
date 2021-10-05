@@ -9,11 +9,12 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <Authors>lars.michael</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/larsmichael/DomainServices/blob/master/README.md</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/larsmichael/DomainServices/blob/main/README.md</PackageProjectUrl>
     <RepositoryUrl>https://github.com/larsmichael/DomainServices</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Title>Domain Services</Title>
     <Description>Lightweight Domain Services (DDD) Library.</Description>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <Product>Domain Services</Product>
     <PackageTags>DDD, Clean-Architecture</PackageTags>
     <PackageIcon>ds-icon-64.png</PackageIcon>
@@ -40,6 +41,7 @@
 
   <ItemGroup>
     <None Include="nuget\ds-icon-64.png" Pack="true" PackagePath="" />
+    <None Include="nuget\readme.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
