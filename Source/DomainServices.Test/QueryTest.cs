@@ -10,18 +10,18 @@
         [Fact]
         public void CreateWithNullOrEmptyQueryThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new Query<Account>(default(QueryCondition)!));
-            Assert.Throws<ArgumentNullException>(() => new Query<Account>(default(IEnumerable<QueryCondition>)!));
-            Assert.Throws<ArgumentException>(() => new Query<Account>(new List<QueryCondition>()));
+            Assert.Throws<ArgumentNullException>(() => new Query<FakeEntity>(default(QueryCondition)!));
+            Assert.Throws<ArgumentNullException>(() => new Query<FakeEntity>(default(IEnumerable<QueryCondition>)!));
+            Assert.Throws<ArgumentException>(() => new Query<FakeEntity>(new List<QueryCondition>()));
         }
 
         [Fact]
         public void CreateWithIllegalValueTypeThrows()
         {
-            var e = Assert.Throws<Exception>(() => new Query<Account>
+            var e = Assert.Throws<Exception>(() => new Query<FakeEntity>
             {
                 new("Name", QueryOperator.Like, "John"),
-                new("Activated", "true")
+                new("Foo", "true")
             });
 
             Assert.Contains("The value must be assignable to the type", e.Message);
@@ -30,10 +30,10 @@
         [Fact]
         public void CreateWithIllegalValueTypeForAnyThrows()
         {
-            var e = Assert.Throws<Exception>(() => new Query<Account>
+            var e = Assert.Throws<Exception>(() => new Query<FakeEntity>
             {
                 new("Name", QueryOperator.Any, new [] {1, 2, 3}),
-                new("Activated", true)
+                new("Foo", true)
             });
 
             Assert.Contains("The value must be assignable to the type", e.Message);
@@ -42,8 +42,8 @@
         [Fact]
         public void AddWithIllegalValueTypeThrows()
         {
-            var query = new Query<Account>();
-            var e = Assert.Throws<Exception>(() => query.Add(new QueryCondition("Activated", "true")));
+            var query = new Query<FakeEntity>();
+            var e = Assert.Throws<Exception>(() => query.Add(new QueryCondition("Foo", "true")));
             Assert.Contains("The value must be assignable to the type", e.Message);
         }
 
@@ -76,7 +76,7 @@
         public void ToExpressionForNotSupportedOperatorThrows(QueryOperator queryOperator)
         {
             var conditions = new List<QueryCondition> { new("Name", queryOperator, "John Doe") };
-            var query = new Query<Account>(conditions);
+            var query = new Query<FakeEntity>(conditions);
 
             Assert.Throws<NotImplementedException>(() => query.ToExpression());
         }
@@ -87,22 +87,21 @@
             var conditions = new List<QueryCondition>
             {
                 new("Id", QueryOperator.Equal, "john.doe"),
-                new("Activated", QueryOperator.Equal, true),
-                new("Company", QueryOperator.Equal, null!)
+                new("Foo", QueryOperator.Equal, true),
             };
 
-            var query = new Query<Account>(conditions);
+            var query = new Query<FakeEntity>(conditions);
 
-            Assert.Equal(typeof(Func<Account, bool>), query.ToExpression().Type);
+            Assert.Equal(typeof(Func<FakeEntity, bool>), query.ToExpression().Type);
         }
 
         [Fact]
         public void GetEnumeratorIsOk()
         {
-            var query = new Query<Account>
+            var query = new Query<FakeEntity>
             {
                 new("Id", QueryOperator.Equal, "john.doe"),
-                new("TokenExpiration", QueryOperator.GreaterThan, DateTime.Now.AddDays(-1))
+                new("Bar", QueryOperator.GreaterThan, DateTime.Now)
             };
 
             Assert.Equal(2, query.Count());
@@ -114,11 +113,11 @@
             var conditions = new List<QueryCondition>
             {
                 new("Id", QueryOperator.Any, new object[] {"john.doe", "donald.duck"}),
-                new("TokenExpiration", QueryOperator.GreaterThan, DateTime.Now.AddDays(-1)),
-                new("Company", null!)
+                new("Foo", false),
+                new("Bar", QueryOperator.GreaterThan, DateTime.Now)
             };
 
-            var query = new Query<Account>(conditions);
+            var query = new Query<FakeEntity>(conditions);
 
             Assert.IsType<string>(query.ToString());
         }

@@ -9,29 +9,29 @@
         [Fact]
         public void FilterNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => ExpressionBuilder.Build<Account>(null!));
+            Assert.Throws<ArgumentNullException>(() => ExpressionBuilder.Build<FakeEntity>(null!));
         }
 
         [Fact]
         public void FilterEmptyThrows()
         {
-            Assert.Throws<ArgumentException>(() => ExpressionBuilder.Build<Account>(new List<QueryCondition>()));
+            Assert.Throws<ArgumentException>(() => ExpressionBuilder.Build<FakeEntity>(new List<QueryCondition>()));
         }
 
         [Fact]
         public void NonExistingPropertyThrows()
         {
-            var filter = new List<QueryCondition> { new QueryCondition("NonExistingProperty", QueryOperator.Equal, "value") };
+            var filter = new List<QueryCondition> { new("NonExistingProperty", QueryOperator.Equal, "value") };
 
-            Assert.Throws<ArgumentException>(() => ExpressionBuilder.Build<Account>(filter));
+            Assert.Throws<ArgumentException>(() => ExpressionBuilder.Build<FakeEntity>(filter));
         }
 
         [Fact]
         public void IllegalValueTypeThrows()
         {
-            var filter = new List<QueryCondition> { new QueryCondition("Email", QueryOperator.Equal, 99) };
+            var filter = new List<QueryCondition> { new("Bar", QueryOperator.Equal, 99) };
 
-            Assert.Throws<InvalidOperationException>(() => ExpressionBuilder.Build<Account>(filter));
+            Assert.Throws<InvalidOperationException>(() => ExpressionBuilder.Build<FakeEntity>(filter));
         }
 
         [Theory]
@@ -45,9 +45,9 @@
         [InlineData(QueryOperator.SpatiallyWithinDistance)]
         public void NotSupportedOperatorThrows(QueryOperator queryOperator)
         {
-            var filter = new List<QueryCondition> { new QueryCondition("Name", queryOperator, "John Doe") };
+            var filter = new List<QueryCondition> { new("Name", queryOperator, "John Doe") };
 
-            Assert.Throws<NotImplementedException>(() => ExpressionBuilder.Build<Account>(filter));
+            Assert.Throws<NotImplementedException>(() => ExpressionBuilder.Build<FakeEntity>(filter));
         }
 
         [Fact]
@@ -55,13 +55,14 @@
         {
             var filter = new List<QueryCondition>
             {
-                new QueryCondition("Id", QueryOperator.Equal, "john.doe"),
-                new QueryCondition("Activated", QueryOperator.Equal, true)
+                new("Id", QueryOperator.Equal, "john.doe"),
+                new("Foo", QueryOperator.Equal, true),
+                new("Bar", QueryOperator.GreaterThan, DateTime.Now)
             };
 
-            var expression = ExpressionBuilder.Build<Account>(filter);
+            var expression = ExpressionBuilder.Build<FakeEntity>(filter);
 
-            Assert.Equal(typeof(Func<Account, bool>), expression.Type);
+            Assert.Equal(typeof(Func<FakeEntity, bool>), expression.Type);
         }
     }
 }

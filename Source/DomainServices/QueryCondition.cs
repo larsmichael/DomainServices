@@ -22,7 +22,7 @@
         public QueryCondition(string item, QueryOperator queryOperator, object value)
         {
             Guard.Against.NullOrEmpty(item, nameof(item));
-            if (queryOperator == QueryOperator.Any && !(value is ICollection))
+            if (queryOperator == QueryOperator.Any && value is not ICollection)
             {
                 throw new ArgumentException($"Value '{value}' is not a collection. When QueryOperator is ANY, the value must be a collection.", nameof(value));
             }

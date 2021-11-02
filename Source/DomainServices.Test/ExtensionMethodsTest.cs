@@ -22,14 +22,13 @@
         [Fact]
         public void QueryToCommandStringIsOk()
         {
-            var now = DateTime.Now;
-            var query = new Query<Account>
+            var query = new Query<FakeEntity>
             {
-                new QueryCondition("Activated", QueryOperator.Equal, true),
-                new QueryCondition("TokenExpiration", QueryOperator.GreaterThan, now)
+                new("Foo", QueryOperator.Equal, true),
+                new("Bar", QueryOperator.GreaterThan, DateTime.Now)
             };
 
-            Assert.Equal("(Activated = ?) AND (TokenExpiration > ?)", query.ToCommandString());
+            Assert.Equal("(Foo = ?) AND (Bar > ?)", query.ToCommandString());
         }
     }
 }
