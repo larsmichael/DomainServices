@@ -1,10 +1,10 @@
 ﻿namespace DomainServices.Authorization
 {
+    using System.Text.Json.Serialization;
     using Ardalis.GuardClauses;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json;
 
     public readonly struct Permission
     {

@@ -1,5 +1,6 @@
 ﻿namespace DomainServices.Repositories
 {
+    using System.Text.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -7,8 +8,7 @@
     using System.Linq.Expressions;
     using System.Security.Claims;
     using Abstractions;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Text.Json;
 
     /// <summary>
     ///     Generic grouped JSON repository.
@@ -26,7 +26,7 @@
         private readonly IEqualityComparer<string>? _comparer;
         private readonly FileInfo _fileInfo;
         private readonly string _filePath;
-        private readonly JsonSerializerSettings _jsonSerializerSettings;
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
         private Dictionary<string, Dictionary<string, TEntity>> _entities;
         private DateTime _lastModified = DateTime.MinValue;
 
@@ -34,28 +34,25 @@
         ///     Initializes a new instance of the <see cref="GroupedJsonRepository{TEntity}" /> class.
         /// </summary>
         /// <param name="filePath">The file path.</param>
-        /// <param name="typeNameHandling">The type name handling.</param>
         /// <param name="converters">Optional converters.</param>
         /// <param name="comparer">Optional equality comparer</param>
         /// <exception cref="ArgumentNullException">filePath</exception>
-        public GroupedJsonRepository(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null, IEqualityComparer<string>? comparer = null)
+        public GroupedJsonRepository(string filePath, IEnumerable<JsonConverter>? converters = null, IEqualityComparer<string>? comparer = null)
         {
             _filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
             _comparer = comparer;
             _entities = new Dictionary<string, Dictionary<string, TEntity>>(_comparer);
             _fileInfo = new FileInfo(_filePath);
-            _jsonSerializerSettings = new JsonSerializerSettings();
-            _jsonSerializerSettings.Converters.Add(new StringEnumConverter());
-            _jsonSerializerSettings.Formatting = Formatting.Indented;
-            _jsonSerializerSettings.TypeNameHandling = typeNameHandling;
-            _jsonSerializerSettings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-            _jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            _jsonSerializerSettings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true
+            };
             if (converters != null)
             {
                 foreach (var converter in converters)
                 {
-                    _jsonSerializerSettings.Converters.Add(converter);
+                    _jsonSerializerOptions.Converters.Add(converter);
                 }
             }
         }
@@ -64,20 +61,9 @@
         ///     Initializes a new instance of the <see cref="GroupedJsonRepository{TEntity}" /> class.
         /// </summary>
         /// <param name="filePath">The file path.</param>
-        /// <param name="typeNameHandling">The type name handling.</param>
         /// <param name="converters">The converters.</param>
-        public GroupedJsonRepository(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null)
-            : this(filePath, typeNameHandling, converters, null)
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="GroupedJsonRepository{TEntity}" /> class.
-        /// </summary>
-        /// <param name="filePath">The file path.</param>
-        /// <param name="typeNameHandling">The type name handling.</param>
-        public GroupedJsonRepository(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects)
-            : this(filePath, typeNameHandling, null, null)
+        public GroupedJsonRepository(string filePath, IEnumerable<JsonConverter>? converters = null)
+            : this(filePath, converters, null)
         {
         }
 
@@ -86,7 +72,7 @@
         /// </summary>
         /// <param name="filePath">The file path.</param>
         public GroupedJsonRepository(string filePath)
-            : this(filePath, TypeNameHandling.Objects, null, null)
+            : this(filePath, null, null)
         {
         }
 
@@ -416,7 +402,7 @@
         private void Serialize()
         {
             using var streamWriter = new StreamWriter(_filePath);
-            var json = JsonConvert.SerializeObject(_entities, _jsonSerializerSettings);
+            var json = JsonSerializer.Serialize(_entities, _jsonSerializerOptions);
             streamWriter.Write(json);
         }
 
@@ -429,9 +415,9 @@
 
             using var streamReader = new StreamReader(_filePath);
             var json = streamReader.ReadToEnd();
-            var entities = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, TEntity>>>(json, _jsonSerializerSettings);
+            var entities = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, TEntity>>>(json, _jsonSerializerOptions);
             _entities = new Dictionary<string, Dictionary<string, TEntity>>(_comparer);
-            foreach (var group in entities)
+            foreach (var group in entities!)
             {
                 _entities.Add(group.Key, new Dictionary<string, TEntity>(group.Value, _comparer));
             }

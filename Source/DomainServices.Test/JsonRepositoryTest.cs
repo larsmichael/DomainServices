@@ -109,7 +109,9 @@
             _repository.Add(entity);
             entity.Metadata.Add("Description", "New description");
             _repository.Update(entity);
-            Assert.Equal("New description", _repository.Get(entity.Id).Value.Metadata["Description"]);
+            var updatedEntity = _repository.Get(entity.Id).Value;
+            Assert.NotEmpty(updatedEntity.Metadata);
+            Assert.Equal("New description", updatedEntity.Metadata["Description"]);
         }
 
         [Theory, AutoData]

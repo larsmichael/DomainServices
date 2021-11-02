@@ -1,11 +1,11 @@
 ﻿namespace DomainServices.Logging
 {
+    using System.Text.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Ardalis.GuardClauses;
     using Abstractions;
-    using Newtonsoft.Json;
 
     /// <summary>
     ///     An immutable structure representing a log entry
@@ -113,14 +113,6 @@
         public int CompareTo(LogEntry other)
         {
             return DateTime.CompareTo(other.DateTime);
-        }
-
-        /// <summary>
-        ///     Determines whether the Metadata property should be serialized
-        /// </summary>
-        public bool ShouldSerializeMetadata()
-        {
-            return Metadata.Count > 0;
         }
     }
 }

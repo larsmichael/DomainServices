@@ -9,8 +9,8 @@ namespace DomainServices.Repositories
     using System.Security.Claims;
     using Abstractions;
     using Authorization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     ///     Generic Json Repository supporting permissions on entities.
@@ -31,7 +31,7 @@ namespace DomainServices.Repositories
         private readonly IEqualityComparer<TEntityId>? _comparer;
         private readonly FileInfo _fileInfo;
         private readonly string _filePath;
-        private readonly JsonSerializerSettings _jsonSerializerSettings;
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
         private Dictionary<TEntityId, TEntity> _entities;
         private DateTime _lastModified = DateTime.MinValue;
 
@@ -39,28 +39,25 @@ namespace DomainServices.Repositories
         ///     Initializes a new instance of the <see cref="JsonRepository{TEntity, TEntityId}" /> class.
         /// </summary>
         /// <param name="filePath">The file path.</param>
-        /// <param name="typeNameHandling">The type name handling.</param>
         /// <param name="converters">Optional converters.</param>
         /// <param name="comparer">Equality comparer</param>
         /// <exception cref="ArgumentNullException">filePath</exception>
-        public JsonRepositorySecured(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null, IEqualityComparer<TEntityId>? comparer = null)
+        public JsonRepositorySecured(string filePath, IEnumerable<JsonConverter>? converters = null, IEqualityComparer<TEntityId>? comparer = null)
         {
             _filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
             _comparer = comparer;
             _entities = new Dictionary<TEntityId, TEntity>(_comparer);
             _fileInfo = new FileInfo(_filePath);
-            _jsonSerializerSettings = new JsonSerializerSettings();
-            _jsonSerializerSettings.Converters.Add(new StringEnumConverter());
-            _jsonSerializerSettings.Formatting = Formatting.Indented;
-            _jsonSerializerSettings.TypeNameHandling = typeNameHandling;
-            _jsonSerializerSettings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-            _jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            _jsonSerializerSettings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true
+            };
             if (converters != null)
             {
                 foreach (var converter in converters)
                 {
-                    _jsonSerializerSettings.Converters.Add(converter);
+                    _jsonSerializerOptions.Converters.Add(converter);
                 }
             }
         }
@@ -69,20 +66,9 @@ namespace DomainServices.Repositories
         ///     Initializes a new instance of the <see cref="JsonRepository{TEntity, TEntityId}" /> class.
         /// </summary>
         /// <param name="filePath">The file path.</param>
-        /// <param name="typeNameHandling">The type name handling.</param>
         /// <param name="converters">The converters.</param>
-        public JsonRepositorySecured(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects, IEnumerable<JsonConverter>? converters = null)
-            : this(filePath, typeNameHandling, converters, null)
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="JsonRepository{TEntity, TEntityId}" /> class.
-        /// </summary>
-        /// <param name="filePath">The file path.</param>
-        /// <param name="typeNameHandling">The type name handling.</param>
-        public JsonRepositorySecured(string filePath, TypeNameHandling typeNameHandling = TypeNameHandling.Objects)
-            : this(filePath, typeNameHandling, null, null)
+        public JsonRepositorySecured(string filePath, IEnumerable<JsonConverter>? converters = null)
+            : this(filePath, converters, null)
         {
         }
 
@@ -91,7 +77,7 @@ namespace DomainServices.Repositories
         /// </summary>
         /// <param name="filePath">The file path.</param>
         public JsonRepositorySecured(string filePath)
-            : this(filePath, TypeNameHandling.Objects, null, null)
+            : this(filePath, null, null)
         {
         }
 
@@ -308,7 +294,7 @@ namespace DomainServices.Repositories
         private void Serialize()
         {
             using var streamWriter = new StreamWriter(_filePath);
-            var json = JsonConvert.SerializeObject(_entities, _jsonSerializerSettings);
+            var json = JsonSerializer.Serialize(_entities, _jsonSerializerOptions);
             streamWriter.Write(json);
         }
 
@@ -323,7 +309,7 @@ namespace DomainServices.Repositories
             {
                 using var streamReader = new StreamReader(_filePath);
                 var json = streamReader.ReadToEnd();
-                _entities = new Dictionary<TEntityId, TEntity>(JsonConvert.DeserializeObject<Dictionary<TEntityId, TEntity>>(json, _jsonSerializerSettings), _comparer);
+                _entities = new Dictionary<TEntityId, TEntity>(JsonSerializer.Deserialize<Dictionary<TEntityId, TEntity>>(json, _jsonSerializerOptions)!, _comparer);
             }
             catch (Exception exception)
             {

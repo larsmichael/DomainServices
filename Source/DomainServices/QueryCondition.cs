@@ -1,11 +1,11 @@
 ﻿namespace DomainServices
 {
+    using System.Text.Json.Serialization;
     using System;
     using System.Collections;
     using System.Globalization;
     using System.Text;
     using Ardalis.GuardClauses;
-    using Newtonsoft.Json;
 
     /// <summary>
     ///     Class QueryCondition.

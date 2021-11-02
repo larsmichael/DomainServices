@@ -1,6 +1,6 @@
 ﻿namespace DomainServices.Abstractions
 {
-    using Newtonsoft.Json;
+    using System.Text.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -36,13 +36,13 @@
         /// </summary>
         public T Clone<T>()
         {
-            var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
-            var serializeSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(this, serializeSettings), deserializeSettings);
+            //var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
+            //var serializeSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            //return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(this, serializeSettings), deserializeSettings);
 
 #warning To be used when using System.Text.Json instead of Newtonsoft.Json. Possibly, custom JsonOptions are not necessary.
-            //var json = JsonSerializer.Serialize(this, typeof(T), _jsonOptions);
-            //return JsonSerializer.Deserialize<T>(json, _jsonOptions)!;
+            var json = JsonSerializer.Serialize(this, typeof(T));
+            return JsonSerializer.Deserialize<T>(json)!;
         }
 
         /// <summary>
@@ -148,22 +148,6 @@
             {
                 _permissions.Add(new Permission(principals, operation, permissionType));
             }
-        }
-
-        /// <summary>
-        ///     Determines whether the Metadata property should be serialized
-        /// </summary>
-        public bool ShouldSerializeMetadata()
-        {
-            return _metadata.Count > 0;
-        }
-
-        /// <summary>
-        ///     Determines whether the Permissions property should be serialized
-        /// </summary>
-        public bool ShouldSerializePermissions()
-        {
-            return _permissions.Count > 0;
         }
     }
 }
