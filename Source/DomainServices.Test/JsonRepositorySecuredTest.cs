@@ -8,7 +8,6 @@
     using System.Security.Claims;
     using AutoFixture.Xunit2;
     using Repositories;
-    using Newtonsoft.Json;
     using Xunit;
 
     public sealed class JsonRepositorySecuredTest : IClassFixture<JsonRepositorySecuredFixture>, IDisposable

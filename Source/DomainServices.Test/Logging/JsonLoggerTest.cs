@@ -44,8 +44,9 @@
         [Fact]
         public void LogAndGetWithMetadataIsOk()
         {
+            var id = Guid.NewGuid();
             var entry = new LogEntry(
-                Guid.NewGuid(),
+                id,
                 LogLevel.Error,
                 "first error",
                 "my-source",
@@ -55,8 +56,10 @@
                 new Dictionary<object, object> { {"Description", "My log entry description"}}
             );
             _logger.Log(entry);
-            Assert.True(entry.Metadata.ContainsKey("Description"));
-            Assert.Equal("My log entry description", entry.Metadata["Description"]);
+
+            var logEntry = _logger.Get(e => e.Id == id).Single();
+            Assert.True(logEntry.Metadata.ContainsKey("Description"));
+            Assert.Equal("My log entry description", logEntry.Metadata["Description"].ToString());
         }
 
         [Fact]

@@ -1,8 +1,8 @@
 ﻿namespace DomainServices.Test
 {
+    using System.Text.Json.Serialization;
     using System;
     using Abstractions;
-    using Newtonsoft.Json;
 
     public class FakeGroupedEntity : BaseGroupedEntity<string>
     {
