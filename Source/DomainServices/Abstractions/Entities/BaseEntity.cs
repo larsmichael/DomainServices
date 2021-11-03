@@ -1,5 +1,6 @@
 ﻿namespace DomainServices.Abstractions
 {
+    using System.Text.Json.Serialization;
     using System.Text.Json;
     using System;
     using System.Collections.Generic;
@@ -14,21 +15,21 @@
     /// <typeparam name="TId">The type of the entity identifier.</typeparam>
     public abstract class BaseEntity<TId> : ISecuredEntity<TId>, ICloneable where TId : notnull
     {
-        private readonly Dictionary<object, object> _metadata;
-        private readonly List<Permission> _permissions;
         private TId _id;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BaseEntity{TId}" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
+        /// <param name="metadata">Metadata.</param>
+        /// <param name="permissions">Permissions.</param>
         /// <exception cref="ArgumentNullException">id</exception>
-        protected BaseEntity(TId id) 
+        protected BaseEntity(TId id, IDictionary<string, object>? metadata = null, IList<Permission>? permissions = null) 
         {
             Guard.Against.Null(id, nameof(id));
             _id = id;
-            _metadata = new Dictionary<object, object>();
-            _permissions = new List<Permission>();
+            Metadata = metadata ?? new Dictionary<string, object>();
+            Permissions = permissions ?? new List<Permission>();
         }
 
         /// <summary>
@@ -36,19 +37,17 @@
         /// </summary>
         public T Clone<T>()
         {
-            //var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
-            //var serializeSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-            //return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(this, serializeSettings), deserializeSettings);
-
-#warning To be used when using System.Text.Json instead of Newtonsoft.Json. Possibly, custom JsonOptions are not necessary.
-            var json = JsonSerializer.Serialize(this, typeof(T));
-            return JsonSerializer.Deserialize<T>(json)!;
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new JsonStringEnumConverter());
+            options.Converters.Add(new ObjectJsonConverter());
+            var json = JsonSerializer.Serialize(this, typeof(T), options);
+            return JsonSerializer.Deserialize<T>(json, options)!;
         }
 
         /// <summary>
         ///     Gets the permissions.
         /// </summary>
-        public virtual IList<Permission> Permissions => _permissions;
+        public virtual IList<Permission> Permissions { get; }
 
         /// <summary>
         ///     Gets the identifier.
@@ -74,7 +73,7 @@
         /// <summary>
         ///     Gets the metadata.
         /// </summary>
-        public virtual IDictionary<object, object> Metadata => _metadata;
+        public virtual IDictionary<string, object> Metadata { get; }
 
         /// <summary>
         ///     Determines whether the specified principals are allowed to perform the specified operation.
@@ -87,14 +86,14 @@
         /// </returns>
         public bool IsAllowed(HashSet<string> principals, string operation)
         {
-            if (_permissions.Any(p => p.Principals.Intersect(principals).Any() &&
+            if (Permissions.Any(p => p.Principals.Intersect(principals).Any() &&
                                       p.Operation == operation &&
                                       p.Type == PermissionType.Denied))
             {
                 return false;
             }
 
-            return _permissions.Any(p => p.Principals.Intersect(principals).Any() &&
+            return Permissions.Any(p => p.Principals.Intersect(principals).Any() &&
                                          p.Operation == operation &&
                                          p.Type == PermissionType.Allowed);
         }
@@ -132,7 +131,7 @@
         /// <param name="permissionType">Type of the permission.</param>
         public void AddPermission(IEnumerable<string> principals, string operation, PermissionType permissionType = PermissionType.Allowed)
         {
-            _permissions.Add(new Permission(principals, operation, permissionType));
+            Permissions.Add(new Permission(principals, operation, permissionType));
         }
 
         /// <summary>
@@ -146,7 +145,7 @@
             principals = principals.ToArray();
             foreach (var operation in operations)
             {
-                _permissions.Add(new Permission(principals, operation, permissionType));
+                Permissions.Add(new Permission(principals, operation, permissionType));
             }
         }
     }

@@ -198,7 +198,7 @@
                 e.Metadata.Add("Description", "A description");
             }
 
-            Assert.Empty(_repository.Get(entity.Id, _user).Value.Metadata);
+            Assert.DoesNotContain("Description", _repository.Get(entity.Id, _user).Value.Metadata.Keys);
         }
 
         [Fact]
@@ -214,7 +214,7 @@
             var e = _repository.Get(entity.Id, _user).Value;
             e.Metadata.Add("Description", "A description");
 
-            Assert.Empty(_repository.Get(entity.Id, _user).Value.Metadata);
+            Assert.DoesNotContain("Description", _repository.Get(entity.Id, _user).Value.Metadata.Keys);
         }
 
         [Theory, AutoData]
@@ -224,7 +224,7 @@
             var e = _repository.Get(ent => ent.Id == entity.Id, _user).First();
             e.Metadata.Add("Description", "A description");
 
-            Assert.Empty(_repository.Get(entity.Id, _user).Value.Metadata);
+            Assert.DoesNotContain("Description", _repository.Get(entity.Id, _user).Value.Metadata.Keys);
         }
 
         [Theory, AutoData]

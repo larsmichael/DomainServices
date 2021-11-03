@@ -1,5 +1,6 @@
 ﻿namespace DomainServices.Test
 {
+    using System;
     using System.Collections.Generic;
     using System.Security.Claims;
     using DomainServices.Authorization;
@@ -111,11 +112,23 @@
         [Fact]
         public void CloneIsOk()
         {
-            var entity = new FakeEntity("MyEntity", "My Entity");
+            var entity = new FakeEntity(
+                Guid.NewGuid().ToString(),
+                "MyEntity",
+                "MyGroup",
+                new Dictionary<string, object>
+                {
+                    {"foo", true},
+                    {"bar", DateTime.Now}
+                });
             var clone = entity.Clone<FakeEntity>();
             Assert.Equal(entity.Id, clone.Id);
             Assert.Equal(entity.Name, clone.Name);
+            Assert.Equal(entity.Group, clone.Group);
             Assert.Equal(entity.FullName, clone.FullName);
+            Assert.Equal(2, clone.Metadata.Count);
+            Assert.Equal(true, clone.Metadata["foo"]);
+            Assert.IsType<DateTime>(clone.Metadata["bar"]);
         }
     }
 }

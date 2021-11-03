@@ -51,7 +51,8 @@
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true
             };
-            _jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            _jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); 
+            _jsonSerializerOptions.Converters.Add(new ObjectJsonConverter());
             if (converters != null)
             {
                 foreach (var converter in converters)

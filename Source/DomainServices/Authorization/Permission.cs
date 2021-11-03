@@ -9,7 +9,7 @@
     public readonly struct Permission
     {
         [JsonConstructor]
-        public Permission(HashSet<string> principals, string operation, PermissionType permissionType = PermissionType.Allowed)
+        public Permission(HashSet<string> principals, string operation, PermissionType type = PermissionType.Allowed)
         {
             if (principals is null || !principals.Any())
             {
@@ -19,11 +19,11 @@
             Guard.Against.NullOrEmpty(operation, nameof(operation));
             Principals = principals;
             Operation = operation.Trim().ToLower();
-            Type = permissionType;
+            Type = type;
         }
 
-        public Permission(IEnumerable<string> principals, string operation, PermissionType permissionType = PermissionType.Allowed)
-            : this(new HashSet<string>(principals), operation, permissionType)
+        public Permission(IEnumerable<string> principals, string operation, PermissionType type = PermissionType.Allowed)
+            : this(new HashSet<string>(principals), operation, type)
         {
         }
 

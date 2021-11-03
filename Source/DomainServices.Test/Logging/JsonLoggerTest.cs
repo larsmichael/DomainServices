@@ -53,7 +53,7 @@
                 "my-tag",
                 "my-machine",
                 DateTime.Now,
-                new Dictionary<object, object> { {"Description", "My log entry description"}}
+                new Dictionary<string, object> { {"Description", "My log entry description"}}
             );
             _logger.Log(entry);
 

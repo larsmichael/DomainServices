@@ -1,5 +1,8 @@
 ﻿namespace DomainServices.Abstractions
 {
+    using Authorization;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Abstract base class for a grouped, named entity
     /// </summary>
@@ -12,8 +15,10 @@
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="group">The group.</param>
-        protected BaseGroupedEntity(TId id, string name, string? group)
-            : base(id, name)
+        /// <param name="metadata">Metadata.</param>
+        /// <param name="permissions">Permissions.</param>
+        protected BaseGroupedEntity(TId id, string name, string? group, IDictionary<string, object>? metadata = null, IList<Permission>? permissions = null)
+            : base(id, name, metadata, permissions)
         {
             Group = group;
         }
@@ -31,9 +36,9 @@
         public string? Group { get; }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return FullName;
