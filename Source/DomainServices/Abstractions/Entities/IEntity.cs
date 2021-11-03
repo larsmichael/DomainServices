@@ -18,6 +18,6 @@
         ///     Gets the metadata.
         /// </summary>
         /// <value>The metadata.</value>
-        IDictionary<object, object> Metadata { get; }
+        IDictionary<string, object> Metadata { get; }
     }
 }

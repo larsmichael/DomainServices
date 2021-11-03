@@ -1,6 +1,8 @@
 ﻿namespace DomainServices.Abstractions
 {
+    using Authorization;
     using System;
+    using System.Collections.Generic;
     using Ardalis.GuardClauses;
 
     /// <summary>
@@ -16,9 +18,11 @@
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>
+        /// <param name="metadata">Metadata.</param>
+        /// <param name="permissions">Permissions.</param>
         /// <exception cref="ArgumentNullException">name</exception>
-        protected BaseNamedEntity(TId id, string name)
-            : base(id)
+        protected BaseNamedEntity(TId id, string name, IDictionary<string, object>? metadata = null, IList<Permission>? permissions = null)
+            : base(id, metadata, permissions)
         {
             Guard.Against.NullOrEmpty(name, nameof(name));
             _name = name;
@@ -36,9 +40,9 @@
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="string" /> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
         {
             return Name;

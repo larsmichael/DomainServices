@@ -1,7 +1,7 @@
 ﻿namespace DomainServices
 {
+    using System.Text.Json.Serialization;
     using System;
-    using Newtonsoft.Json;
 
     /// <summary>
     ///     Class representing a date range.

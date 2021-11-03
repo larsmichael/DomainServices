@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Repositories;
-    using Newtonsoft.Json;
 
     /// <summary>
     ///     Class for logging to a JSON file.
@@ -15,7 +14,7 @@
         ///     Initializes a new instance of the <see cref="JsonLogger" /> class.
         /// </summary>
         /// <param name="filePath">The file path.</param>
-        public JsonLogger(string filePath) : base(filePath, TypeNameHandling.None)
+        public JsonLogger(string filePath) : base(filePath)
         {
         }
 

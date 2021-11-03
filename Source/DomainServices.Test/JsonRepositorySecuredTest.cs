@@ -8,7 +8,6 @@
     using System.Security.Claims;
     using AutoFixture.Xunit2;
     using Repositories;
-    using Newtonsoft.Json;
     using Xunit;
 
     public sealed class JsonRepositorySecuredTest : IClassFixture<JsonRepositorySecuredFixture>, IDisposable
@@ -21,7 +20,7 @@
 
         public JsonRepositorySecuredTest(JsonRepositorySecuredFixture fixture)
         {
-            _repository = new JsonRepositorySecured<FakeEntity, string>(_filePath, TypeNameHandling.None);
+            _repository = new JsonRepositorySecured<FakeEntity, string>(_filePath);
             _admin = fixture.Admin;
             _user = fixture.User;
             _guest = fixture.Guest;
@@ -182,7 +181,7 @@
         [Fact]
         public void CaseInsensitiveComparerIsOk()
         {
-            var repository = new JsonRepositorySecured<FakeEntity, string>(_filePath, TypeNameHandling.None, comparer: StringComparer.InvariantCultureIgnoreCase);
+            var repository = new JsonRepositorySecured<FakeEntity, string>(_filePath, comparer: StringComparer.InvariantCultureIgnoreCase);
             repository.Add(new FakeEntitySecured("MyEntity", "My Entity"));
             Assert.True(repository.Get("myentity", _user).HasValue);
             Assert.True(repository.Contains("myentity", _user));
@@ -199,7 +198,7 @@
                 e.Metadata.Add("Description", "A description");
             }
 
-            Assert.Empty(_repository.Get(entity.Id, _user).Value.Metadata);
+            Assert.DoesNotContain("Description", _repository.Get(entity.Id, _user).Value.Metadata.Keys);
         }
 
         [Fact]
@@ -215,7 +214,7 @@
             var e = _repository.Get(entity.Id, _user).Value;
             e.Metadata.Add("Description", "A description");
 
-            Assert.Empty(_repository.Get(entity.Id, _user).Value.Metadata);
+            Assert.DoesNotContain("Description", _repository.Get(entity.Id, _user).Value.Metadata.Keys);
         }
 
         [Theory, AutoData]
@@ -225,7 +224,7 @@
             var e = _repository.Get(ent => ent.Id == entity.Id, _user).First();
             e.Metadata.Add("Description", "A description");
 
-            Assert.Empty(_repository.Get(entity.Id, _user).Value.Metadata);
+            Assert.DoesNotContain("Description", _repository.Get(entity.Id, _user).Value.Metadata.Keys);
         }
 
         [Theory, AutoData]
