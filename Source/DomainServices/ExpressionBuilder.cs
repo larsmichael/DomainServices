@@ -74,6 +74,14 @@
                 case QueryOperator.NotEqual:
                     return Expression.NotEqual(property, value);
 
+                case QueryOperator.Like:
+                    var left = Expression.Call(property, typeof(string).GetMethod("Contains", new[] {typeof(string)})!, value);
+                    return Expression.Equal(left, Expression.Constant(true));
+
+                case QueryOperator.NotLike:
+                    left = Expression.Call(property, typeof(string).GetMethod("Contains", new[] { typeof(string) })!, value);
+                    return Expression.Equal(left, Expression.Constant(false));
+
                 default:
                     throw new NotImplementedException($"Query operator '{condition.QueryOperator}' is not supported.");
             }

@@ -66,8 +66,6 @@
         [Theory]
         [InlineData(QueryOperator.Contains)]
         [InlineData(QueryOperator.Intersects)]
-        [InlineData(QueryOperator.Like)]
-        [InlineData(QueryOperator.NotLike)]
         [InlineData(QueryOperator.SpatiallyContains)]
         [InlineData(QueryOperator.SpatiallyIntersects)]
         [InlineData(QueryOperator.SpatiallyWithin)]

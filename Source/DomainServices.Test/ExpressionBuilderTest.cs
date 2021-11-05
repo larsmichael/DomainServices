@@ -37,8 +37,6 @@
         [Theory]
         [InlineData(QueryOperator.Contains)]
         [InlineData(QueryOperator.Intersects)]
-        [InlineData(QueryOperator.Like)]
-        [InlineData(QueryOperator.NotLike)]
         [InlineData(QueryOperator.SpatiallyContains)]
         [InlineData(QueryOperator.SpatiallyIntersects)]
         [InlineData(QueryOperator.SpatiallyWithin)]
@@ -55,7 +53,7 @@
         {
             var filter = new List<QueryCondition>
             {
-                new("Id", QueryOperator.Equal, "john.doe"),
+                new("Id", QueryOperator.Like, "john"),
                 new("Foo", QueryOperator.Equal, true),
                 new("Bar", QueryOperator.GreaterThan, DateTime.Now)
             };
