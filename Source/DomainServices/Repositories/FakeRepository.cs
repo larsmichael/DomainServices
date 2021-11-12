@@ -36,6 +36,11 @@
         {
             foreach (var entity in entities)
             {
+                if (entity is ITraceableEntity<TEntityId> e)
+                {
+                    e.Added = DateTime.UtcNow;
+                    e.Updated = null;
+                }
                 _entities.Add(entity.Id, entity);
             }
         }

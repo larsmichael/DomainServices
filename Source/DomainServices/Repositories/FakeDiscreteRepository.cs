@@ -1,9 +1,11 @@
 ﻿namespace DomainServices.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using Abstractions;
+    using ICloneable = Abstractions.ICloneable;
 
     /// <summary>
     ///     In-memory implementation of a discrete repository. To be used in for example unit tests.
@@ -24,6 +26,11 @@
         {
             foreach (var entity in entities)
             {
+                if (entity is ITraceableEntity<TEntityId> e)
+                {
+                    e.Added = DateTime.UtcNow;
+                    e.Updated = null;
+                }
                 _entities.Add(entity.Id, entity);
             }
         }
