@@ -18,9 +18,7 @@ public class Product : BaseNamedEntity<Guid>
 To create a new repository abstraction, extend the generic repository interfaces. 
 
 ```csharp
-public interface IProductRepository : IRepository<Product, Guid>,
-    IDiscreteRepository<Product, Guid>,
-    IUpdatableRepository<Product, Guid>
+public interface IProductRepository : IRepository<Product, Guid>, IDiscreteRepository<Product, Guid>, IUpdatableRepository<Product, Guid>
 {
     bool ContainsName(string name);
 }
