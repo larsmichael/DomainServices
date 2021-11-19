@@ -5,8 +5,8 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);nuget\*.log</DefaultItemExcludes>
     <NoWarn>1701;1702;1591</NoWarn>
     <PackageId>DomainServices</PackageId>
-    <Version>1.0.0</Version>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Fixed the NuGet package readme file.</PackageReleaseNotes> 
     <Authors>lars.michael</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/larsmichael/DomainServices/blob/main/README.md</PackageProjectUrl>
