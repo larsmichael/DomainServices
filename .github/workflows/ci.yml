@@ -27,4 +27,9 @@ jobs:
     - name: Build
       run: dotnet build ./Source/DomainServices.sln --no-restore
     - name: Test
-      run: dotnet test ./Source/DomainServices.Test/DomainServices.Test.csproj --no-build --verbosity normal
+      run: dotnet test ./Source/DomainServices.Test/DomainServices.Test.csproj --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+    - name: Publish coverage report to coveralls.io
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./Source/DomainServices.Test/TestResults/coverage.info
