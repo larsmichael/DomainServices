@@ -29,7 +29,8 @@
         private readonly IEqualityComparer<TEntityId>? _comparer;
         private readonly FileInfo _fileInfo;
         private readonly string _filePath;
-        private readonly JsonSerializerOptions _jsonSerializerOptions;
+        private readonly JsonSerializerOptions _serializerOptions;
+        private readonly JsonSerializerOptions _deserializerOptions;
         private Dictionary<TEntityId, TEntity> _entities;
         private DateTime _lastModified = DateTime.MinValue;
 
@@ -46,18 +47,31 @@
             _comparer = comparer;
             _entities = new Dictionary<TEntityId, TEntity>(_comparer);
             _fileInfo = new FileInfo(_filePath);
-            _jsonSerializerOptions = new JsonSerializerOptions
+
+            // Serialization options
+            _serializerOptions = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = true
             };
-            _jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); 
-            _jsonSerializerOptions.Converters.Add(new ObjectJsonConverter());
+            _serializerOptions.Converters.Add(new JsonStringEnumConverter());
             if (converters != null)
             {
                 foreach (var converter in converters)
                 {
-                    _jsonSerializerOptions.Converters.Add(converter);
+                    _serializerOptions.Converters.Add(converter);
+                }
+            }
+
+            // Deserialization options
+            _deserializerOptions = new JsonSerializerOptions();
+            _deserializerOptions.Converters.Add(new JsonStringEnumConverter());
+            _deserializerOptions.Converters.Add(new ObjectJsonConverter());
+            if (converters != null)
+            {
+                foreach (var converter in converters)
+                {
+                    _deserializerOptions.Converters.Add(converter);
                 }
             }
         }
@@ -267,7 +281,7 @@
         private void Serialize()
         {
             using var streamWriter = new StreamWriter(_filePath);
-            var json = JsonSerializer.Serialize(_entities, _jsonSerializerOptions);
+            var json = JsonSerializer.Serialize(_entities, _serializerOptions);
             streamWriter.Write(json);
         }
 
@@ -282,7 +296,7 @@
             {
                 using var streamReader = new StreamReader(_filePath);
                 var json = streamReader.ReadToEnd();
-                _entities = new Dictionary<TEntityId, TEntity>(JsonSerializer.Deserialize<Dictionary<TEntityId, TEntity>>(json, _jsonSerializerOptions)!, _comparer);
+                _entities = new Dictionary<TEntityId, TEntity>(JsonSerializer.Deserialize<Dictionary<TEntityId, TEntity>>(json, _deserializerOptions)!, _comparer);
             }
             catch (Exception exception)
             {

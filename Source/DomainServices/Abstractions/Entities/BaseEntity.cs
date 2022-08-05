@@ -37,11 +37,13 @@
         /// </summary>
         public T Clone<T>()
         {
-            var options = new JsonSerializerOptions();
-            options.Converters.Add(new JsonStringEnumConverter());
-            options.Converters.Add(new ObjectJsonConverter());
-            var json = JsonSerializer.Serialize(this, typeof(T), options);
-            return JsonSerializer.Deserialize<T>(json, options)!;
+            var writeOptions = new JsonSerializerOptions();
+            writeOptions.Converters.Add(new JsonStringEnumConverter());
+            var json = JsonSerializer.Serialize(this, typeof(T), writeOptions);
+            var readOptions = new JsonSerializerOptions();
+            readOptions.Converters.Add(new JsonStringEnumConverter());
+            readOptions.Converters.Add(new ObjectJsonConverter());
+            return JsonSerializer.Deserialize<T>(json, readOptions)!;
         }
 
         /// <summary>

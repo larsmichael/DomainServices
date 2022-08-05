@@ -47,7 +47,7 @@ namespace DomainServices
 
         public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
         {
-            JsonSerializer.Serialize(writer, value, options);
+            throw new InvalidOperationException($"The {nameof(ObjectJsonConverter)} does not support writing.");
         }
     }
 }
