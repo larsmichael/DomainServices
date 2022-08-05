@@ -1,39 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <DefaultItemExcludes>$(DefaultItemExcludes);nuget\*.log</DefaultItemExcludes>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <PackageId>DomainServices</PackageId>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>Fixed the NuGet package readme file.</PackageReleaseNotes> 
-    <Authors>lars.michael</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/larsmichael/DomainServices/blob/main/README.md</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/larsmichael/DomainServices</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <Title>Domain Services</Title>
-    <Description>Lightweight Domain Services (DDD) Library.</Description>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <Product>Domain Services</Product>
-    <PackageTags>DDD, Clean-Architecture</PackageTags>
-    <PackageIcon>ds-icon-64.png</PackageIcon>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\DomainServices.xml</DocumentationFile>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+		<EnablePackageValidation>true</EnablePackageValidation>
+		<PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
+		<DefaultItemExcludes>$(DefaultItemExcludes);nuget\*.log</DefaultItemExcludes>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<PackageId>DomainServices</PackageId>
+		<Version>1.0.1</Version>
+		<PackageReleaseNotes>Fixed the NuGet package readme file.</PackageReleaseNotes>
+		<Authors>lars.michael</Authors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/larsmichael/DomainServices/blob/main/README.md</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/larsmichael/DomainServices</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<Title>Domain Services</Title>
+		<Description>Lightweight Domain Services (DDD) Library.</Description>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<Product>Domain Services</Product>
+		<PackageTags>DDD, Clean-Architecture</PackageTags>
+		<PackageIcon>ds-icon-64.png</PackageIcon>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\DomainServices.xml</DocumentationFile>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
-    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
+		<PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="nuget\ds-icon-64.png" Pack="true" PackagePath="" />
-    <None Include="nuget\readme.md" Pack="true" PackagePath="" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="nuget\ds-icon-64.png" Pack="true" PackagePath="" />
+		<None Include="nuget\readme.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 
 </Project>
