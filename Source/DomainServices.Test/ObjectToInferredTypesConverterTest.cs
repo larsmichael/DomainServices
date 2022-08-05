@@ -4,13 +4,14 @@
     using System.Text.Json;
     using Xunit;
 
-    public class ObjectJsonConverterTest
+    public class ObjectToInferredTypesConverterTest
     {
         private readonly JsonSerializerOptions _options;
-        public ObjectJsonConverterTest()
+
+        public ObjectToInferredTypesConverterTest()
         {
             _options = new JsonSerializerOptions();
-            _options.Converters.Add(new ObjectJsonConverter());
+            _options.Converters.Add(new ObjectToInferredTypesConverter());
         }
 
         [Fact]
