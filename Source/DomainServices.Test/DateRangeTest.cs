@@ -76,6 +76,7 @@
             var now = DateTime.Now;
             var range = new DateRange(now, now.AddHours(1));
             Assert.True(range.Includes(now.AddMinutes(30)));
+            Assert.True(range.Includes(now.AddHours(1)));
             Assert.False(range.Includes(now.AddHours(2)));
         }
 
@@ -86,6 +87,25 @@
             var range = new DateRange(dateTime, dateTime);
             Assert.True(range.Includes(dateTime));
             Assert.False(range.Includes(dateTime.AddHours(1)));
+        }
+
+        [Fact]
+        public void StrictlyIncludesIsOk()
+        {
+            var now = DateTime.Now;
+            var range = new DateRange(now, now.AddHours(1));
+            Assert.True(range.StrictlyIncludes(now.AddMinutes(30)));
+            Assert.False(range.StrictlyIncludes(now.AddHours(1)));
+            Assert.False(range.StrictlyIncludes(now.AddHours(2)));
+        }
+
+        [Fact]
+        public void StrictlyIncludesForZeroTimeSpanIsOk()
+        {
+            var dateTime = DateTime.Now;
+            var range = new DateRange(dateTime, dateTime);
+            Assert.False(range.StrictlyIncludes(dateTime));
+            Assert.False(range.StrictlyIncludes(dateTime.AddHours(1)));
         }
 
         [Fact]
