@@ -1,6 +1,7 @@
 ﻿namespace DomainServices.Test
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using AutoFixture.Xunit2;
@@ -33,6 +34,21 @@
         {
             _repository.Add(entity);
             Assert.Throws<ArgumentException>(() => _repository.Add(entity));
+        }
+
+        [Theory, AutoData]
+        public void GetNonExistingReturnsEmptyMaybe(string entityId)
+        {
+            var maybe = _repository.Get(entityId);
+            Assert.False(maybe.HasValue);
+        }
+
+        [Theory, AutoData]
+        public void GetByNonFulfilledPredicateReturnsEmptyList(string entityId)
+        {
+            var entities = _repository.Get(e => e.Id == entityId);
+            Assert.IsType<List<FakeEntity>>(entities);
+            Assert.Empty(entities);
         }
 
         [Theory, AutoData]
