@@ -10,6 +10,14 @@
     public interface IGroupedService<out TEntity>
     {
         /// <summary>
+        ///     Determines whether group exists.
+        /// </summary>
+        /// <param name="group">The group.</param>
+        /// <param name="user">The user.</param>
+        /// <returns><c>true</c> if group exists, <c>false</c> otherwise.</returns>
+        public bool GroupExists(string group, ClaimsPrincipal? user = null);
+
+        /// <summary>
         ///     Gets entities by group.
         /// </summary>
         /// <param name="group">The group.</param>

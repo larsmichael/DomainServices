@@ -41,6 +41,17 @@
         }
 
         /// <summary>
+        ///     Determines whether group exists.
+        /// </summary>
+        /// <param name="group">The group.</param>
+        /// <param name="user">The user.</param>
+        /// <returns><c>true</c> if group exists, <c>false</c> otherwise.</returns>
+        public virtual bool GroupExists(string group, ClaimsPrincipal? user = null)
+        {
+            return _repository.ContainsGroup(group, user);
+        }
+
+        /// <summary>
         ///     Gets the entities by group.
         /// </summary>
         /// <param name="group">The group.</param>
