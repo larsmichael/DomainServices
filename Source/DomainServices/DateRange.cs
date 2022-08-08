@@ -60,6 +60,16 @@
         }
 
         /// <summary>
+        ///     Checks whether the specified datetime is strictly included in the date range.
+        /// </summary>
+        /// <param name="value">The datetime value.</param>
+        /// <returns><c>true</c> if the given datetime is strictly included in the date range, <c>false</c> otherwise.</returns>
+        public bool StrictlyIncludes(DateTime value)
+        {
+            return From < value && value < To;
+        }
+
+        /// <summary>
         ///     Gets the intersection with another date range.
         /// </summary>
         /// <param name="anotherRange">the other date range.</param>
