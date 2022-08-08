@@ -42,7 +42,7 @@
             var json = JsonSerializer.Serialize(this, typeof(T), writeOptions);
             var readOptions = new JsonSerializerOptions();
             readOptions.Converters.Add(new JsonStringEnumConverter());
-            readOptions.Converters.Add(new ObjectJsonConverter());
+            readOptions.Converters.Add(new ObjectToInferredTypeConverter());
             return JsonSerializer.Deserialize<T>(json, readOptions)!;
         }
 

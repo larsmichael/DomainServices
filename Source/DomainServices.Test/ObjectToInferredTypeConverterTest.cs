@@ -5,17 +5,17 @@
     using System.Text.Json;
     using Xunit;
 
-    public class ObjectJsonConverterTest
+    public class ObjectToInferredTypeConverterTest
     {
         private readonly JsonSerializerOptions _options;
-        public ObjectJsonConverterTest()
+        public ObjectToInferredTypeConverterTest()
         {
             _options = new JsonSerializerOptions();
-            _options.Converters.Add(new ObjectJsonConverter());
+            _options.Converters.Add(new ObjectToInferredTypeConverter());
         }
 
         [Fact]
-        // This is the problem the ObjectJsonConverter is solving
+        // This is the problem the ObjectToInferredTypeConverter is solving
         public void ByDefaultObjectPropertiesAreDeserializedToJsonElement()
         {
             var dictionary = new Dictionary<string, object>
@@ -45,7 +45,7 @@
             };
 
             var e = Assert.Throws<InvalidOperationException>(() => JsonSerializer.Serialize(dictionary, _options));
-            Assert.Equal($"The {nameof(ObjectJsonConverter)} does not support writing.", e.Message);
+            Assert.Equal($"The {nameof(ObjectToInferredTypeConverter)} does not support writing.", e.Message);
         }
 
         [Fact]

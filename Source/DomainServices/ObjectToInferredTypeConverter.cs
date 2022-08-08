@@ -13,7 +13,7 @@ namespace DomainServices
     /// <remarks>
     ///     https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-converters-how-to?pivots=dotnet-6-0#deserialize-inferred-types-to-object-properties
     /// </remarks>  
-    internal class ObjectJsonConverter : JsonConverter<object>
+    internal class ObjectToInferredTypeConverter : JsonConverter<object>
     {
         public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -31,7 +31,7 @@ namespace DomainServices
 
         public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
         {
-            throw new InvalidOperationException($"The {nameof(ObjectJsonConverter)} does not support writing.");
+            throw new InvalidOperationException($"The {nameof(ObjectToInferredTypeConverter)} does not support writing.");
         }
     }
 }

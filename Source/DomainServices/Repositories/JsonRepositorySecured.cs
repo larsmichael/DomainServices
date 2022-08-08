@@ -69,7 +69,7 @@ namespace DomainServices.Repositories
             // Deserialization options
             _deserializerOptions = new JsonSerializerOptions();
             _deserializerOptions.Converters.Add(new JsonStringEnumConverter());
-            _deserializerOptions.Converters.Add(new ObjectJsonConverter());
+            _deserializerOptions.Converters.Add(new ObjectToInferredTypeConverter());
             if (converters != null)
             {
                 foreach (var converter in converters)
