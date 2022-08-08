@@ -7,42 +7,26 @@ namespace DomainServices
     using System.Text.Json;
     using System.Text.Json.Serialization;
 
+    /// <summary>
+    ///     Deserialize object properties into inferred types instead of JsonElement
+    /// </summary>
+    /// <remarks>
+    ///     https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-converters-how-to?pivots=dotnet-6-0#deserialize-inferred-types-to-object-properties
+    /// </remarks>  
     internal class ObjectJsonConverter : JsonConverter<object>
     {
         public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.True)
+            return reader.TokenType switch
             {
-                return true;
-            }
-
-            if (reader.TokenType == JsonTokenType.False)
-            {
-                return false;
-            }
-
-            if (reader.TokenType == JsonTokenType.Number)
-            {
-                if (reader.TryGetInt64(out long l))
-                {
-                    return l;
-                }
-
-                return reader.GetDouble();
-            }
-
-            if (reader.TokenType == JsonTokenType.String)
-            {
-                if (reader.TryGetDateTime(out DateTime datetime))
-                {
-                    return datetime;
-                }
-
-                return reader.GetString()!;
-            }
-
-            using JsonDocument document = JsonDocument.ParseValue(ref reader);
-            return document.RootElement.Clone();
+                JsonTokenType.True => true,
+                JsonTokenType.False => false,
+                JsonTokenType.Number when reader.TryGetInt64(out long l) => l,
+                JsonTokenType.Number => reader.GetDouble(),
+                JsonTokenType.String when reader.TryGetDateTime(out DateTime datetime) => datetime,
+                JsonTokenType.String => reader.GetString()!,
+                _ => JsonDocument.ParseValue(ref reader).RootElement.Clone()
+            };
         }
 
         public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
