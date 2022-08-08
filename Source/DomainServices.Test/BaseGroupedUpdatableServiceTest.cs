@@ -148,6 +148,23 @@
             Assert.Contains("'DomainServices.Test.FakeEntity' with id 'NonExistingId' was not found.", logEntries.Select(l => l.Text));
         }
 
+        [Fact]
+        public void NonExistingGroupReturnsFalse()
+        {
+            Assert.False(_service.GroupExists("nonExistingGroup"));
+        }
+
+        [Theory, AutoFakeEntityData]
+        public void GroupExistsIsOk(GroupedUpdatableService service, FakeEntity entity)
+        {
+            var group = entity.Group;
+            service.Add(entity);
+
+            Assert.NotNull(group);
+            Assert.NotEmpty(group);
+            Assert.True(service.GroupExists(group));
+        }
+
         [Theory, AutoFakeEntityData]
         public void GetByGroupIsOk(GroupedUpdatableService service, FakeEntity entity)
         {

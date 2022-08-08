@@ -149,6 +149,21 @@
         }
 
         [Fact]
+        public void NonExistingGroupReturnsFalse()
+        {
+            Assert.False(_service.GroupExists("nonExistingGroup"));
+        }
+
+        [Fact]
+        public void GroupExistsIsOk()
+        {
+            var group = _service.GetAll().ToArray()[0].Group;
+            Assert.NotNull(group);
+            Assert.NotEmpty(group);
+            Assert.True(_service.GroupExists(group));
+        }
+
+        [Fact]
         public void GetByGroupIsOk()
         {
             var group = _service.GetAll().ToArray()[0].Group;
