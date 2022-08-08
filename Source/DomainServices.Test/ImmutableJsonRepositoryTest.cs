@@ -1,7 +1,6 @@
 ﻿namespace DomainServices.Test
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -9,14 +8,14 @@
     using Repositories;
     using Xunit;
 
-    public sealed class JsonRepositoryTest : IDisposable
+    public sealed class ImmutableJsonRepositoryTest : IDisposable
     {
-        private readonly string _filePath = Path.Combine(Path.GetTempPath(), "__entities.json");
-        private readonly JsonRepository<FakeEntity, string> _repository;
+        private readonly string _filePath = Path.Combine(Path.GetTempPath(), "__immutable-entities.json");
+        private readonly ImmutableJsonRepository<FakeEntity, string> _repository;
 
-        public JsonRepositoryTest()
+        public ImmutableJsonRepositoryTest()
         {
-            _repository = new JsonRepository<FakeEntity, string>(_filePath);
+            _repository = new ImmutableJsonRepository<FakeEntity, string>(_filePath);
         }
 
         public void Dispose()
@@ -27,7 +26,7 @@
         [Fact]
         public void CreateWithNullFilePathThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new JsonRepository<FakeEntity, string>(null!));
+            Assert.Throws<ArgumentNullException>(() => new ImmutableJsonRepository<FakeEntity, string>(null!));
         }
 
         [Theory, AutoData]
@@ -35,12 +34,6 @@
         {
             _repository.Add(entity);
             Assert.Throws<ArgumentException>(() => _repository.Add(entity));
-        }
-
-        [Theory, AutoData]
-        public void UpdateNonExistingThrows(FakeEntity entity)
-        {
-            Assert.Throws<KeyNotFoundException>(() => _repository.Update(entity));
         }
 
         [Theory, AutoData]
@@ -94,7 +87,7 @@
         public void GetAllIsOk(FakeEntity entity)
         {
             _repository.Add(entity);
-            Assert.Single((IEnumerable) _repository.GetAll());
+            Assert.Single(_repository.GetAll());
         }
 
         [Theory, AutoData]
@@ -122,36 +115,15 @@
             Assert.Equal(0, _repository.Count());
         }
 
-        [Theory, AutoData]
-        public void UpdateIsOk(FakeEntity entity)
-        {
-            _repository.Add(entity);
-            entity.Metadata.Add("Description", "New description");
-            _repository.Update(entity);
-            var updatedEntity = _repository.Get(entity.Id).Value;
-            Assert.NotEmpty(updatedEntity.Metadata);
-            Assert.Equal("New description", updatedEntity.Metadata["Description"]);
-        }
-
-        [Theory, AutoData]
-        public void UpdateDoesNotModifyAddedDateTime(FakeEntity entity)
-        {
-            _repository.Add(entity);
-            var addedDateTime = _repository.Get(entity.Id).Value.Added;
-            var updatedEntity = new FakeEntity(entity.Id, "New Name");
-            _repository.Update(updatedEntity);
-            Assert.Equal(addedDateTime, _repository.Get(updatedEntity.Id).Value.Added);
-        }
-
         [Fact]
         public void CaseInsensitiveComparerIsOk()
         {
-            var repository = new JsonRepository<FakeEntity, string>(_filePath, comparer: StringComparer.InvariantCultureIgnoreCase);
+            var repository = new ImmutableJsonRepository<FakeEntity, string>(_filePath, comparer: StringComparer.InvariantCultureIgnoreCase);
             repository.Add(new FakeEntity("MyEntity", "My Entity"));
             Assert.True(repository.Get("myentity").HasValue);
             Assert.True(repository.Contains("myentity"));
             Assert.Empty(repository.Get(entity => entity.Id.StartsWith("my")));
-            Assert.Single((IEnumerable) repository.Get(entity => entity.Id.StartsWith("my", StringComparison.InvariantCultureIgnoreCase)));
+            Assert.Single(repository.Get(entity => entity.Id.StartsWith("my", StringComparison.InvariantCultureIgnoreCase)));
         }
 
         [Theory, AutoData]
