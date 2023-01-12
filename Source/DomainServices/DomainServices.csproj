@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>net7.0</TargetFrameworks>
 		<EnablePackageValidation>true</EnablePackageValidation>
 		<PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
 		<DefaultItemExcludes>$(DefaultItemExcludes);nuget\*.log</DefaultItemExcludes>
 		<NoWarn>1701;1702;1591</NoWarn>
 		<PackageId>DomainServices</PackageId>
-		<Version>1.0.1</Version>
-		<PackageReleaseNotes>Fixed the NuGet package readme file.</PackageReleaseNotes>
+		<Version>1.0.2</Version>
+		<PackageReleaseNotes>Target net7.0</PackageReleaseNotes>
 		<Authors>lars.michael</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/larsmichael/DomainServices/blob/main/README.md</PackageProjectUrl>
