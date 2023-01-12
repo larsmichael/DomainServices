@@ -1,106 +1,105 @@
-﻿namespace DomainServices
+﻿namespace DomainServices;
+
+using System.ComponentModel;
+
+/// <summary>
+/// Enum QueryOperator
+/// </summary>
+public enum QueryOperator
 {
-    using System.ComponentModel;
+    /// <summary>
+    /// Greater than
+    /// </summary>
+    [Description(">")]
+    GreaterThan,
 
     /// <summary>
-    /// Enum QueryOperator
+    /// Greater than or equal
     /// </summary>
-    public enum QueryOperator
-    {
-        /// <summary>
-        /// Greater than
-        /// </summary>
-        [Description(">")]
-        GreaterThan,
+    [Description(">=")]
+    GreaterThanOrEqual,
 
-        /// <summary>
-        /// Greater than or equal
-        /// </summary>
-        [Description(">=")]
-        GreaterThanOrEqual,
+    /// <summary>
+    /// Less than
+    /// </summary>
+    [Description("<")]
+    LessThan,
 
-        /// <summary>
-        /// Less than
-        /// </summary>
-        [Description("<")]
-        LessThan,
+    /// <summary>
+    /// Less than or equal
+    /// </summary>
+    [Description("<=")]
+    LessThanOrEqual,
 
-        /// <summary>
-        /// Less than or equal
-        /// </summary>
-        [Description("<=")]
-        LessThanOrEqual,
+    /// <summary>
+    /// Like
+    /// </summary>
+    [Description("Like")]
+    Like,
 
-        /// <summary>
-        /// Like
-        /// </summary>
-        [Description("Like")]
-        Like,
+    /// <summary>
+    /// Not like
+    /// </summary>
+    [Description("Not Like")]
+    NotLike,
 
-        /// <summary>
-        /// Not like
-        /// </summary>
-        [Description("Not Like")]
-        NotLike,
+    /// <summary>
+    /// Equal
+    /// </summary>
+    [Description("=")]
+    Equal,
 
-        /// <summary>
-        /// Equal
-        /// </summary>
-        [Description("=")]
-        Equal,
+    /// <summary>
+    /// Not equal
+    /// </summary>
+    [Description("!=")]
+    NotEqual,
 
-        /// <summary>
-        /// Not equal
-        /// </summary>
-        [Description("!=")]
-        NotEqual,
+    /// <summary>
+    /// Any
+    /// </summary>
+    [Description("Any")]
+    Any,
 
-        /// <summary>
-        /// Any
-        /// </summary>
-        [Description("Any")]
-        Any,
+    /// <summary>
+    /// Intersects
+    /// </summary>
+    [Description("Intersects")]
+    Intersects,
 
-        /// <summary>
-        /// Intersects
-        /// </summary>
-        [Description("Intersects")]
-        Intersects,
+    /// <summary>
+    /// Contains
+    /// </summary>
+    [Description("Contains")]
+    Contains,
 
-        /// <summary>
-        /// Contains
-        /// </summary>
-        [Description("Contains")]
-        Contains,
+    /// <summary>
+    /// SpatiallyIntersects
+    /// </summary>
+    [Description("Spatially Intersects")]
+    SpatiallyIntersects,
 
-        /// <summary>
-        /// SpatiallyIntersects
-        /// </summary>
-        [Description("Spatially Intersects")]
-        SpatiallyIntersects,
+    /// <summary>
+    /// SpatiallyContains
+    /// </summary>
+    [Description("Spatially Contains")]
+    SpatiallyContains,
 
-        /// <summary>
-        /// SpatiallyContains
-        /// </summary>
-        [Description("Spatially Contains")]
-        SpatiallyContains,
+    /// <summary>
+    /// SpatiallyWithin
+    /// </summary>
+    [Description("Spatially Within")]
+    SpatiallyWithin,
 
-        /// <summary>
-        /// SpatiallyWithin
-        /// </summary>
-        [Description("Spatially Within")]
-        SpatiallyWithin,
+    /// <summary>
+    /// SpatiallyWithinDistance
+    /// </summary>
+    [Description("Spatially Within Distance")]
+    SpatiallyWithinDistance,
 
-        /// <summary>
-        /// SpatiallyWithinDistance
-        /// </summary>
-        [Description("Spatially Within Distance")]
-        SpatiallyWithinDistance,
-
-        /// <summary>
-        /// SpatiallyTransform
-        /// </summary>
-        [Description("Spatially Transform")]
-        SpatiallyTransform
-    }
+    /// <summary>
+    /// SpatiallyTransform
+    /// </summary>
+    [Description("Spatially Transform")]
+    SpatiallyTransform
 }

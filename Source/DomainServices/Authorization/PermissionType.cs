@@ -1,8 +1,7 @@
-﻿namespace DomainServices.Authorization
+﻿namespace DomainServices.Authorization;
+
+public enum PermissionType
 {
-    public enum PermissionType
-    {
-        Allowed,
-        Denied
-    }
+    Allowed,
+    Denied
 }

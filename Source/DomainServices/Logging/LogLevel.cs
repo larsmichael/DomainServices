@@ -1,11 +1,10 @@
-﻿namespace DomainServices.Logging
+﻿namespace DomainServices.Logging;
+
+public enum LogLevel
 {
-    public enum LogLevel
-    {
-        Debug,
-        Information,
-        Warning,
-        Error,
-        Critical
-    }
+    Debug,
+    Information,
+    Warning,
+    Error,
+    Critical
 }

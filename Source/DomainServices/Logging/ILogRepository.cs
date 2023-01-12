@@ -1,6 +1,5 @@
-﻿namespace DomainServices.Logging
+﻿namespace DomainServices.Logging;
+
+public interface ILogRepository : ILogReader, ILogger
 {
-    public interface ILogRepository : ILogReader, ILogger
-    {
-    }
 }

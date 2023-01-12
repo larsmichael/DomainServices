@@ -1,41 +1,40 @@
-﻿namespace DomainServices.Authorization
+﻿namespace DomainServices.Authorization;
+
+using System.Text.Json.Serialization;
+using Ardalis.GuardClauses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public readonly struct Permission
 {
-    using System.Text.Json.Serialization;
-    using Ardalis.GuardClauses;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    public readonly struct Permission
+    [JsonConstructor]
+    public Permission(HashSet<string> principals, string operation, PermissionType type = PermissionType.Allowed)
     {
-        [JsonConstructor]
-        public Permission(HashSet<string> principals, string operation, PermissionType type = PermissionType.Allowed)
+        if (principals is null || !principals.Any())
         {
-            if (principals is null || !principals.Any())
-            {
-                throw new ArgumentException("Principals cannot be null or empty.", nameof(principals));
-            }
-
-            Guard.Against.NullOrEmpty(operation, nameof(operation));
-            Principals = principals;
-            Operation = operation.Trim().ToLower();
-            Type = type;
+            throw new ArgumentException("Principals cannot be null or empty.", nameof(principals));
         }
 
-        public Permission(IEnumerable<string> principals, string operation, PermissionType type = PermissionType.Allowed)
-            : this(new HashSet<string>(principals), operation, type)
-        {
-        }
+        Guard.Against.NullOrEmpty(operation, nameof(operation));
+        Principals = principals;
+        Operation = operation.Trim().ToLower();
+        Type = type;
+    }
 
-        public HashSet<string> Principals { get; }
+    public Permission(IEnumerable<string> principals, string operation, PermissionType type = PermissionType.Allowed)
+        : this(new HashSet<string>(principals), operation, type)
+    {
+    }
 
-        public string Operation { get; }
+    public HashSet<string> Principals { get; }
 
-        public PermissionType Type { get; }
+    public string Operation { get; }
 
-        public override string ToString()
-        {
-            return $"[{string.Join(", ", Principals)}] are {Type.ToString().ToLower()} to {Operation}.";
-        }
+    public PermissionType Type { get; }
+
+    public override string ToString()
+    {
+        return $"[{string.Join(", ", Principals)}] are {Type.ToString().ToLower()} to {Operation}.";
     }
 }

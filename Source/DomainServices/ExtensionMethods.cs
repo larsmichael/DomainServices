@@ -1,51 +1,50 @@
-﻿namespace DomainServices
+﻿namespace DomainServices;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+
+/// <summary>
+///     Various generic extension methods.
+/// </summary>
+public static class ExtensionMethods
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Text;
+    /// <summary>
+    ///     Gets the description (symbology) of the query operator.
+    /// </summary>
+    /// <param name="queryOperator">The query operator.</param>
+    /// <returns>System.String.</returns>
+    public static string GetDescription(this QueryOperator queryOperator)
+    {
+        var attributes = (DescriptionAttribute[])queryOperator.GetType().GetField(queryOperator.ToString())!.GetCustomAttributes(typeof(DescriptionAttribute), false);
+        return attributes.Length > 0 ? attributes[0].Description : string.Empty;
+    }
 
     /// <summary>
-    ///     Various generic extension methods.
+    ///     Converts the query to a command string.
     /// </summary>
-    public static class ExtensionMethods
+    /// <param name="query">The query.</param>
+    /// <returns>System.String.</returns>
+    public static string ToCommandString(this IEnumerable<QueryCondition> query)
     {
-        /// <summary>
-        ///     Gets the description (symbology) of the query operator.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>System.String.</returns>
-        public static string GetDescription(this QueryOperator queryOperator)
+        var sb = new StringBuilder();
+        foreach (var condition in query)
         {
-            var attributes = (DescriptionAttribute[])queryOperator.GetType().GetField(queryOperator.ToString())!.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            return attributes.Length > 0 ? attributes[0].Description : string.Empty;
-        }
-
-        /// <summary>
-        ///     Converts the query to a command string.
-        /// </summary>
-        /// <param name="query">The query.</param>
-        /// <returns>System.String.</returns>
-        public static string ToCommandString(this IEnumerable<QueryCondition> query)
-        {
-            var sb = new StringBuilder();
-            foreach (var condition in query)
+            if (sb.Length > 0)
             {
-                if (sb.Length > 0)
-                {
-                    sb.Append(" AND ");
-                }
-
-                sb.Append($"({condition.Item} {condition.QueryOperator.GetDescription()} ?)");
+                sb.Append(" AND ");
             }
 
-            return sb.ToString();
+            sb.Append($"({condition.Item} {condition.QueryOperator.GetDescription()} ?)");
         }
 
-        public static bool IsCollection(this Type type)
-        {
-            return typeof(ICollection).IsAssignableFrom(type);
-        }
+        return sb.ToString();
+    }
+
+    public static bool IsCollection(this Type type)
+    {
+        return typeof(ICollection).IsAssignableFrom(type);
     }
 }
